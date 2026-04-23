@@ -10,6 +10,8 @@
 
 [Live Demo](https://cookgpt-cda67.web.app) · [Report Bug](../../issues) · [Request Feature](../../issues)
 
+# 🍳 Click Me : [Cook.GPT](https://cookgpt-cda67.web.app)
+
 </div>
 
 ---
