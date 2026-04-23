@@ -1,0 +1,1 @@
+const fs = require('fs'); let t = fs.readFileSync('src/App.tsx', 'utf8'); t = t.replace(/\\\\\\$\\{Math\.min\\(100, Math\.round\\(\\(levelProgress \/ 3000\\) \\* 100\\)\\)\\}%\\\/g, '${Math.min(100, Math.round((levelProgress / 3000) * 100))}%'); fs.writeFileSync('src/App.tsx', t);
