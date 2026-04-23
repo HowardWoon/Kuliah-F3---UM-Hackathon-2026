@@ -5,6 +5,11 @@ export default function Report() {
   const { analysisData, cookMeal } = useFridgeContext();
   const navigate = useNavigate();
 
+  const handleCookThis = async (mealName: string, wasteSavedRm: number) => {
+    await cookMeal(mealName, wasteSavedRm);
+    navigate("/profile");
+  };
+
   if (!analysisData) {
     // If user refreshes or visits directly without data
     return (
@@ -59,11 +64,11 @@ export default function Report() {
                   <span className="opacity-90"><span className="font-bold text-primary">Z.AI Priority Reason:</span> {meal.zai_priority_reason}</span>
                 </p>
                 <div className="mt-1 self-start flex gap-2">
-                  <button type="button" onClick={() => navigate("/recipe", { state: { meal } })} className="bg-primary text-on-primary px-3 py-1.5 rounded-lg font-label-sm text-[11px] hover:opacity-90 active:scale-95 transition-all shadow-sm">
+                  <button type="button" onClick={() => navigate("/recipe", { state: { meal } })} className="bg-primary text-on-primary px-4 py-2 rounded-lg font-bold text-[12px] hover:opacity-90 active:scale-95 transition-all shadow-sm">
                     View Recipe
                   </button>
-                  <button type="button" onClick={() => cookMeal(meal.meal_name, meal.waste_saved_rm)} className="bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-label-sm text-[11px] hover:opacity-90 active:scale-95 transition-all shadow-sm flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
+                  <button type="button" onClick={() => handleCookThis(meal.meal_name, meal.waste_saved_rm)} className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-[12px] hover:bg-emerald-700 active:scale-95 transition-all shadow-md flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
                     Cook This
                   </button>
                 </div>

@@ -20,8 +20,12 @@ export default function Profile() {
   }
 
   const currentXP = profileData.xp || 0;
-  const maxXP = 3000;
-  const xpPercentage = Math.min((currentXP / maxXP) * 100, 100);
+  const xpForLevel = currentXP >= 9000 ? 9000 : currentXP >= 6000 ? 6000 : currentXP >= 3000 ? 3000 : 3000;
+  const xpBase = currentXP >= 9000 ? 6000 : currentXP >= 6000 ? 3000 : 0;
+  const xpNeeded = xpForLevel - xpBase;
+  const xpInLevel = currentXP - xpBase;
+  const xpPercentage = Math.min((xpInLevel / xpNeeded) * 100, 100);
+  const nextRank = currentXP >= 9000 ? "Master of Leftovers" : currentXP >= 6000 ? "Master of Leftovers" : currentXP >= 3000 ? "Kitchen Alchemist" : "Home Chef";
   const rankTitle = currentXP >= 9000 ? "Master of Leftovers" : currentXP >= 6000 ? "Kitchen Alchemist" : currentXP >= 3000 ? "Home Chef" : "Novice Scraper";
 
   return (
@@ -46,7 +50,7 @@ export default function Profile() {
            </div>
            <div className="text-right">
               <span className="font-stat-lg text-2xl font-black">{currentXP}</span>
-              <span className="text-emerald-100 text-xs ml-1">/ {maxXP} XP</span>
+              <span className="text-emerald-100 text-xs ml-1">/ {xpForLevel} XP</span>
            </div>
         </div>
 
@@ -55,7 +59,7 @@ export default function Profile() {
               <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-white/40"></div>
            </div>
         </div>
-        <p className="text-emerald-50 text-[11px] mt-3 relative z-10 font-medium">{Math.max(maxXP - currentXP, 0)} XP to Next Level</p>
+        <p className="text-emerald-50 text-[11px] mt-3 relative z-10 font-medium">{Math.max(xpForLevel - currentXP, 0)} XP to {nextRank}</p>
       </section>
 
       <section className="grid grid-cols-2 gap-3 mt-2">
