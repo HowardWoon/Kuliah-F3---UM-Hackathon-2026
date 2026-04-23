@@ -28,8 +28,8 @@ export default function Profile() {
     <main className="pt-6 pb-32 px-container-margin flex flex-col gap-stack-lg max-w-2xl mx-auto">
 
       <header className="flex flex-col items-center text-center relative mt-4">
-        <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] mb-4 bg-surface-variant z-20">
-           <img src="/profile.png" alt="Chef Profile" className="w-full h-full object-cover" />
+        <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] mb-4 bg-emerald-100 z-20 flex items-center justify-center">
+           <img src="/profile.png" alt="Chef Profile" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span class="material-symbols-outlined" style="font-size:48px;color:rgb(5,150,105);font-variation-settings:\'FILL\' 1">person</span>'; }} />
         </div>
         <h1 className="font-display-md text-on-surface text-2xl font-bold tracking-tight">Your Chef Profile</h1>
         <p className="text-on-surface-variant text-sm mt-1">Culinary Journey</p>
@@ -41,7 +41,7 @@ export default function Profile() {
         </div>
         <div className="flex justify-between items-end relative z-10 mb-4">
            <div>
-              <p className="font-label-md text-emerald-100 font-semibold mb-1 uppercase tracking-widest text-[10px]">Z.AI Culinary Rank</p>
+              <p className="font-label-md text-emerald-100 font-semibold mb-1 uppercase tracking-widest text-[10px]">Z.AI Culinary Level</p>
               <h2 className="font-headline-md text-2xl font-bold tracking-tight text-white mb-0">{rankTitle}</h2>
            </div>
            <div className="text-right">

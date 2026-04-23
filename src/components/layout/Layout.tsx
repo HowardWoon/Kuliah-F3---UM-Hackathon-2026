@@ -1,8 +1,10 @@
 import { Outlet, useLocation } from "react-router-dom";
 import BottomNav from "./BottomNav";
+import { useFridgeContext } from "../../context/FridgeContext";
 
 export default function Layout() {
   const location = useLocation();
+  const { toastMessage } = useFridgeContext();
   const hideNavs = location.pathname.startsWith("/scanning") || location.pathname === "/recipe";
   const isProfile = location.pathname.startsWith("/profile");
 
@@ -23,12 +25,19 @@ export default function Layout() {
             </button>
           </header>
         )}
-        
+
         <div className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar bg-gray-50 relative pb-20">
           <Outlet />
         </div>
-        
+
         {!hideNavs && <BottomNav />}
+
+        {toastMessage && (
+          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-[350px] bg-emerald-600 text-white text-sm font-medium px-4 py-3 rounded-xl shadow-[0_8px_24px_rgba(5,150,105,0.4)] z-50 flex items-center justify-center text-center animate-bounce">
+            <span className="material-symbols-outlined text-[20px] mr-2" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            {toastMessage}
+          </div>
+        )}
       </div>
     </div>
   );

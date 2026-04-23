@@ -3,10 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFridgeContext } from "../context/FridgeContext";
 
 export default function Home() {
-  const { analysisData, analyzeImages, validationError, error, profileData, loadProfile, apiKey, setApiKey } = useFridgeContext();
+  const { analysisData, analyzeImages, validationError, error, profileData, loadProfile } = useFridgeContext();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const keyInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadProfile();
@@ -68,23 +67,6 @@ export default function Home() {
       </section>
 
       <section className="flex flex-col items-center gap-3">
-        <div className="w-full bg-surface-container-low rounded-xl border border-outline-variant/30 p-3 flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[16px] text-on-surface-variant">key</span>
-            <span className="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">API Key (Live Demo)</span>
-          </div>
-          <input
-            ref={keyInputRef}
-            type="text"
-            value={apiKey}
-            onChange={e => setApiKey(e.target.value)}
-            placeholder="sk-...  Paste your Z.AI key here"
-            className="w-full rounded-lg border border-outline-variant/50 bg-surface-container-lowest px-3 py-2 text-[13px] text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/30"
-          />
-          {!apiKey && (
-            <p className="text-[10px] text-orange-600 font-semibold">No key set — paste an sk-... key above or set VITE_ZAI_API_KEY in .env</p>
-          )}
-        </div>
         <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-xl flex gap-3 items-start text-blue-900 text-[13px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] w-full">
           <span className="material-symbols-outlined text-[18px] text-blue-500 shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>lightbulb</span>
           <p className="leading-relaxed"><strong className="font-semibold text-blue-950 block mb-0.5">Z.AI Pro Tip</strong> Snap clear photos of your fridge shelves or pantry. The more Z.AI sees, the better your savings.</p>
@@ -103,7 +85,7 @@ export default function Home() {
         <button type="button" onClick={handleScanClick} className="w-full bg-emerald-600 text-on-primary py-[18px] px-6 rounded-xl shadow-[0_8px_24px_rgba(5,150,105,0.25)] flex items-center justify-center gap-stack-sm active:scale-95 transition-all hover:bg-emerald-700 hover:shadow-[0_12px_28px_rgba(5,150,105,0.3)] group relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera_front</span>
-          <span className="font-label-sm text-label-sm text-on-primary text-[16px] tracking-wide">Scan Fridge (Multiple)</span>
+          <span className="font-label-sm text-label-sm text-on-primary text-[16px] tracking-wide">Scan Your Ingredients !</span>
         </button>
 
         {validationError && (

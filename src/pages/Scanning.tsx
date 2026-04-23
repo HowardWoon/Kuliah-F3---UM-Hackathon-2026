@@ -20,36 +20,28 @@ const boxPositions = [
   { top: "55%", left: "35%", width: "24%", height: "20%" },
 ];
 
+// Skeleton placeholder boxes shown during scanning
+const skeletonPositions = [
+  { top: "25%", left: "15%", width: "30%", height: "20%" },
+  { top: "50%", left: "55%", width: "25%", height: "18%" },
+  { top: "35%", left: "50%", width: "28%", height: "22%" },
+];
+
 export default function Scanning() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAnalyzing, analysisData, validationError, error } = useFridgeContext();
+  const { isAnalyzing, analysisData, validationError, error, scanProgress, scanStepText } = useFridgeContext();
 
   const previewUrls: string[] = location.state?.previewUrls || [];
 
-  const [progress, setProgress] = useState(5);
   const [detectedNames, setDetectedNames] = useState<string[]>([]);
 
-  // Progress animation — ramps up slowly, jumps on completion
-  useEffect(() => {
-    setProgress(5);
-    setDetectedNames([]);
-
-    const timer = setInterval(() => {
-      setProgress(p => {
-        if (p < 30) return p + Math.random() * 8;
-        if (p < 60) return p + Math.random() * 5;
-        if (p < 85) return p + Math.random() * 2;
-        return p; // sit at 85% until API responds
-      });
-    }, 600);
-    return () => clearInterval(timer);
-  }, []);
-
-  // When API returns data, reveal detected ingredient names
+  // Only reveal ingredient names AFTER loading completes
   useEffect(() => {
     if (analysisData && !isAnalyzing) {
       setDetectedNames(analysisData.ingredients.map(i => i.name));
+    } else if (isAnalyzing) {
+      setDetectedNames([]);
     }
   }, [analysisData, isAnalyzing]);
 
@@ -59,7 +51,6 @@ export default function Scanning() {
       if (validationError || error) {
         navigate("/");
       } else if (analysisData) {
-        setProgress(100);
         setTimeout(() => navigate("/report"), 500);
       }
     }
@@ -72,7 +63,8 @@ export default function Scanning() {
     position: boxPositions[i % boxPositions.length],
   }));
 
-  const totalValue = analysisData
+  // Only compute total value when NOT loading
+  const totalValue = !isAnalyzing && analysisData
     ? analysisData.ingredients.reduce((a, b) => a + b.estimated_cost_rm, 0)
     : 0;
 
@@ -91,17 +83,32 @@ export default function Scanning() {
           ))}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none"></div>
 
-          {detectedItems.map((item) => (
-            <div
-              key={item.id}
-              className={`absolute border-2 ${item.color.border} rounded-sm shadow-sm opacity-80 animate-pulse`}
-              style={{ top: item.position.top, left: item.position.left, width: item.position.width, height: item.position.height }}
-            >
-              <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 ${item.color.label} text-white font-label-sm text-[10px] rounded-full shadow-md whitespace-nowrap`}>
-                {item.name}
-              </span>
-            </div>
-          ))}
+          {/* Show skeleton scan boxes during loading, real labels after completion */}
+          {isAnalyzing ? (
+            skeletonPositions.map((pos, i) => (
+              <div
+                key={`skeleton-${i}`}
+                className="absolute border-2 border-white/30 rounded-sm animate-pulse"
+                style={{ top: pos.top, left: pos.left, width: pos.width, height: pos.height }}
+              >
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-white/20 text-white/60 font-label-sm text-[10px] rounded-full shadow-md whitespace-nowrap backdrop-blur-sm">
+                  Scanning...
+                </span>
+              </div>
+            ))
+          ) : (
+            detectedItems.map((item) => (
+              <div
+                key={item.id}
+                className={`absolute border-2 ${item.color.border} rounded-sm shadow-sm opacity-80 animate-pulse`}
+                style={{ top: item.position.top, left: item.position.left, width: item.position.width, height: item.position.height }}
+              >
+                <span className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 ${item.color.label} text-white font-label-sm text-[10px] rounded-full shadow-md whitespace-nowrap`}>
+                  {item.name}
+                </span>
+              </div>
+            ))
+          )}
         </div>
 
         <header className="absolute top-0 w-full p-gutter pt-10 flex justify-between items-center z-20">
@@ -123,7 +130,7 @@ export default function Scanning() {
             </div>
             <div className="flex-1">
               <h2 className="font-headline-md text-headline-md text-on-surface mb-1">Z.AI is analyzing...</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant line-clamp-2">Scanning ingredients with Z.AI Vision...</p>
+              <p className="font-body-md text-body-md text-on-surface-variant line-clamp-2">{scanStepText || "Initializing scan..."}</p>
             </div>
           </div>
 
@@ -131,14 +138,14 @@ export default function Scanning() {
             <div className="w-full h-2.5 bg-surface-variant rounded-full overflow-hidden shadow-inner">
               <div
                 className="h-full bg-primary rounded-full relative transition-all duration-500 ease-out"
-                style={{ width: `${progress}%` }}
+                style={{ width: `${scanProgress}%` }}
               >
                 <div className="absolute top-0 left-0 w-full h-[1px] bg-white/30"></div>
               </div>
             </div>
             <div className="flex justify-between mt-2 font-label-sm text-label-sm text-outline">
-              <span>{progress >= 100 ? "Analysis complete!" : "Identifying components..."}</span>
-              <span>{Math.floor(progress)}%</span>
+              <span>{scanProgress >= 100 ? "Analysis complete!" : scanStepText}</span>
+              <span>{Math.floor(scanProgress)}%</span>
             </div>
           </div>
 
@@ -146,7 +153,11 @@ export default function Scanning() {
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-secondary-fixed-dim/10 rounded-full blur-xl pointer-events-none"></div>
             <div className="flex flex-col gap-1 z-10">
               <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Estimated Value</span>
-              <span className="font-stat-lg text-stat-lg text-primary text-[24px]">RM {totalValue > 0 ? totalValue.toFixed(2) : "..."}</span>
+              {isAnalyzing ? (
+                <span className="font-stat-lg text-stat-lg text-primary text-[24px] animate-pulse">RM [ Calculating... ]</span>
+              ) : (
+                <span className="font-stat-lg text-stat-lg text-primary text-[24px]">RM {totalValue > 0 ? totalValue.toFixed(2) : "..."}</span>
+              )}
             </div>
             <div className="w-12 h-12 bg-surface-container-lowest rounded-full shadow-sm flex items-center justify-center border border-surface-variant z-10 text-primary">
               <span className="material-symbols-outlined text-[24px]">payments</span>

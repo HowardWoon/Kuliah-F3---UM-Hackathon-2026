@@ -31,7 +31,7 @@ export default function BottomNav() {
       </Link>
       <Link to="/profile" className={getClassName("/profile")}>
         <span className="material-symbols-outlined mb-1" style={getIconStyle("/profile")}>military_tech</span>
-        <span className="font-label-sm text-label-sm">Impact & Rank</span>
+        <span className="font-label-sm text-label-sm">Impact</span>
       </Link>
     </nav>
   );

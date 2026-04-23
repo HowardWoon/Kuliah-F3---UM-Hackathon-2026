@@ -10,15 +10,6 @@ export default function Recipes() {
     loadSavedMeals();
   }, []);
 
-  const getGradient = (idx: number) => {
-    const gradients = [
-      "from-emerald-400 to-emerald-700",
-      "from-amber-400 to-amber-700",
-      "from-blue-400 to-blue-700",
-    ];
-    return gradients[idx % gradients.length];
-  };
-
   return (
     <main className="px-container-margin pt-stack-md flex flex-col gap-stack-lg max-w-2xl mx-auto pb-[120px]">
       <header className="flex flex-col gap-stack-sm pt-stack-sm">
@@ -42,16 +33,13 @@ export default function Recipes() {
               zai_priority_reason: recipe.zai_priority_reason,
               waste_saved_rm: recipe.waste_saved_rm,
               recipe_steps: recipe.recipe_steps,
+              image_src: recipe.image_src,
             };
 
             return (
               <div key={recipe.id || idx} className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden flex flex-row border border-outline-variant/30 relative items-stretch h-32 group">
                 <div className="w-1/3 shrink-0 relative">
-                  <div className={`w-full h-full bg-gradient-to-br ${getGradient(idx)} flex items-center justify-center group-hover:scale-105 transition-transform duration-500`}>
-                    <span className="text-white text-[28px] font-bold opacity-40">
-                      {recipe.meal_name.split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase()}
-                    </span>
-                  </div>
+                  <img src={recipe.image_src} alt={recipe.meal_name} className="w-full h-full object-cover rounded-l-xl group-hover:scale-105 transition-transform duration-500" />
                 </div>
 
                 <div className="p-stack-md py-3 flex flex-col gap-1 flex-grow justify-between overflow-hidden relative">

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { MealDecision, useFridgeContext } from "../context/FridgeContext";
 
@@ -7,6 +7,13 @@ export default function Recipe() {
   const location = useLocation();
   const { rateCookedMeal, isRatingMeal, mealFeedback, setMealFeedback } = useFridgeContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [completedUpTo, setCompletedUpTo] = useState(-1);
+
+  const handleStepClick = (idx: number) => {
+    setCompletedUpTo(prev => prev === idx ? idx - 1 : idx);
+  };
+
+  const stripNumber = (step: string) => step.replace(/^\d+\.\s*/, '');
 
   const meal = location.state?.meal as MealDecision | undefined;
 
@@ -113,21 +120,29 @@ export default function Recipe() {
             <div className="flex items-center gap-2 text-on-surface mb-4">
               <span className="material-symbols-outlined text-primary">restaurant_menu</span>
               <h3 className="font-headline-md text-headline-md">Directions</h3>
+              <span className="ml-auto text-[12px] font-semibold text-emerald-600">{completedUpTo + 1}/{meal.recipe_steps.length} done</span>
             </div>
 
             <div className="flex flex-col gap-stack-md relative pl-2">
-              <div className="absolute left-4 top-6 bottom-8 w-0.5 bg-surface-variant z-0 rounded-full"></div>
+              <div className={`absolute left-4 top-6 bottom-8 w-0.5 rounded-full transition-colors duration-500 ${completedUpTo === meal.recipe_steps.length - 1 ? 'bg-emerald-400' : 'bg-surface-variant'}`}></div>
 
-              {meal.recipe_steps.map((step, idx) => (
-                <div key={idx} className="flex gap-stack-md relative z-10">
-                  <div className={`w-8 h-8 rounded-full ${idx === 0 ? 'bg-primary text-on-primary' : 'bg-surface-variant text-on-surface-variant'} flex items-center justify-center font-label-sm text-label-sm shadow-sm shrink-0 mt-1 ring-4 ring-surface-container-lowest`}>
-                    {idx + 1}
+              {meal.recipe_steps.map((step, idx) => {
+                const done = idx <= completedUpTo;
+                return (
+                  <div key={idx} className="flex gap-stack-md relative z-10 cursor-pointer group" onClick={() => handleStepClick(idx)}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-label-sm text-label-sm shadow-sm shrink-0 mt-1 ring-4 ring-surface-container-lowest transition-all duration-300 ${done ? 'bg-emerald-600 text-white' : 'bg-white border-2 border-gray-300 text-gray-400 group-hover:border-emerald-400'}`}>
+                      {done ? (
+                        <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
+                      ) : (
+                        idx + 1
+                      )}
+                    </div>
+                    <div className={`rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border p-stack-md flex-1 mb-2 transition-all duration-300 ${done ? 'bg-emerald-50/60 border-emerald-200' : 'bg-surface-container-lowest border-surface-variant hover:bg-gray-50'}`}>
+                      <p className={`font-body-md leading-relaxed transition-all duration-300 ${done ? 'text-gray-400 line-through' : 'text-on-surface'}`}>{stripNumber(step)}</p>
+                    </div>
                   </div>
-                  <div className="bg-surface-container-lowest rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-surface-variant p-stack-md flex-1 mb-2">
-                    <p className="font-body-md text-body-md text-on-surface leading-relaxed">{step}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
         </div>

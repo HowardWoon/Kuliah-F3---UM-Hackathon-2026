@@ -45,16 +45,16 @@ export default function Report() {
         <div className="flex flex-col gap-stack-md">
           {analysisData.meal_decisions.map((meal, idx) => {
             return (
-            <div key={idx} className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden flex flex-row border border-outline-variant/30 relative items-stretch h-32">
+            <div key={idx} className="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] overflow-hidden flex flex-row border border-outline-variant/30 relative items-stretch min-h-[128px]">
               <div className="w-1/3 shrink-0 relative">
                 <img src={meal.image_src} alt={meal.meal_name} className="w-full h-full object-cover rounded-l-xl" />
               </div>
-              <div className="p-stack-md py-3 flex flex-col gap-1 flex-grow justify-between overflow-hidden">
+              <div className="p-stack-md py-3 flex flex-col gap-1 flex-grow justify-between">
                 <div className="flex flex-col items-start gap-1">
                   <span className="bg-secondary-container text-on-secondary-container font-label-sm text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap self-end absolute top-3 right-3 shadow-sm border border-secondary/10">Save RM {meal.waste_saved_rm.toFixed(2)}</span>
                   <h3 className="font-body-lg text-body-lg font-semibold text-on-surface line-clamp-1 pr-16">{idx + 1}. {meal.meal_name}</h3>
                 </div>
-                <p className="text-on-surface-variant text-xs flex items-start gap-1 line-clamp-2 leading-tight">
+                <p className="text-on-surface-variant text-xs flex items-start gap-1 line-clamp-3 leading-relaxed">
                   <span className="material-symbols-outlined text-error text-[14px] shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
                   <span className="opacity-90"><span className="font-bold text-primary">Z.AI Priority Reason:</span> {meal.zai_priority_reason}</span>
                 </p>
