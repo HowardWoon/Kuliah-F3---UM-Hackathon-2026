@@ -6,7 +6,7 @@
 [![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react)](https://vitejs.dev)
 [![Z.AI](https://img.shields.io/badge/AI-Z.AI%20GLM-00C896?style=flat)](https://console.ilmu.ai)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 
 [Live Demo](https://cookgpt-cda67.web.app) · [Report Bug](../../issues) · [Request Feature](../../issues)
 
