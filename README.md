@@ -1,213 +1,193 @@
 <div align="center">
-<img width="1200" height="475" alt="Cook.GPT banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# 🍳 Cook.GPT
+<img width="1200" height="475" alt="Cook.GPT banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# Cook.GPT
 ### AI-Powered Economic Decision Intelligence for the Malaysian Kitchen
+
+**Snap your fridge. Stop wasting food. Save money every week.**
 
 [![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react)](https://vitejs.dev)
 [![Z.AI](https://img.shields.io/badge/AI-Z.AI%20GLM-00C896?style=flat)](https://console.ilmu.ai)
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Live Website:** https://cookgpt-cda67.web.app
-
-> **Snap your fridge. Stop wasting food. Save money every week.**
-
-*Built for UMHackathon 2026 — Domain 2: AI for Economic Empowerment & Decision Intelligence*
+[Live Demo](https://cookgpt-cda67.web.app) · [Report Bug](../../issues) · [Request Feature](../../issues)
 
 </div>
 
 ---
 
-## 🛑 The Problem
+## The Problem
 
-Malaysian households lose **RM 200–400 every month** by letting groceries expire unnoticed. This happens for two reasons: a lack of inventory visibility, and a lack of culinary creativity.
+Malaysian households waste **RM 1,000+ per year** on food that expires before it's used. The cycle is familiar:
 
-Standard recipe apps fail because they act as rigid search engines — if you are missing a single ingredient like oyster sauce, the app tells you the meal is impossible to cook. This leads directly to food waste and financial loss.
+- You buy groceries, forget what's in the fridge
+- Items expire silently — no warnings, no reminders
+- You order takeout instead of cooking what you already have
+- Good food (and Ringgit) goes straight to the bin
 
----
-
-## 💡 The Solution
-
-Cook.GPT does not just list recipes. It acts as a **financial risk manager for your kitchen**.
-
-By using Z.AI's multimodal vision model (ILMU-GLM-5.1), it visually audits your available food, calculates the exact Ringgit value at risk of expiring, and dynamically generates adaptive Malaysian recipes to rescue that value — all from a single photo. User stats, meals, and XP then sync to the Firebase project in real time.
-
-> If you remove the Z.AI GLM engine, the app completely breaks. It cannot validate fridge photos, invent recipes on the fly, adapt to missing ingredients, or calculate financial loss. Z.AI is the absolute core of the product.
+**There's no intelligent system that connects what you own to what you should cook — before it's too late.**
 
 ---
 
-## 👨‍💻 Team — KuliahF3
+## Our Solution
 
-| Name | Role |
+**Cook.GPT** uses AI vision to turn your fridge into a decision engine:
+
+| | Step | What Happens |
+|---|---|---|
+| 1 | **Snap** | Take a photo of your fridge or pantry |
+| 2 | **Identify** | Z.AI Vision recognizes every ingredient |
+| 3 | **Alert** | Flags items near expiry with RM value at risk |
+| 4 | **Suggest** | Generates Malaysian recipes using what you already have |
+| 5 | **Track** | Logs meals cooked, RM saved, and your progress over time |
+
+---
+
+## How It Works
+
+```
+Phone Camera ──► Z.AI Vision API ──► Ingredient List
+                                          │
+                              ┌───────────┼───────────┐
+                              ▼           ▼           ▼
+                        Expiry Alert  Recipe Gen   Savings Est.
+                              │           │           │
+                              └───────────┼───────────┘
+                                          ▼
+                                    Firebase Firestore
+                                          │
+                                          ▼
+                                    Profile & History
+```
+
+---
+
+## Screenshots
+
+| Home | Scanning | Inventory |
+|---|---|---|
+| Landing page with savings dashboard | Camera view with AI analysis | Tracked items with freshness status |
+
+| Recipes | Recipe Detail | Profile |
+|---|---|---|
+| AI-generated meal suggestions | Step-by-step with substitutions | XP, savings, and Z.AI ratings |
+
+> Add your screenshots to a `/screenshots` folder and update the image paths above.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+| Requirement | Install |
 |---|---|
-| **Howard Woon Hao Zhe** | Project Lead, App Implementation, Code Repository Management |
-| **Yim Zi Hao** | Product Requirement Document, System Analysis, QA Testing Document |
-| **Sanjay Mukojima Ravindran** | 10-Minute Pitching Video with Prototype Demonstration |
-| **Kingston Nuing Scott** | Preliminary Round Presentation Pitch Deck |
+| Node.js 18+ | [Download](https://nodejs.org) |
+| Firebase CLI | `npm install -g firebase-tools` |
+| Z.AI API Key | [Get one here](https://console.ilmu.ai) |
+| Firebase Project | [Create one](https://console.firebase.google.com) with Firestore enabled |
 
----
+### Installation
 
-## ✨ Core Features
-
-### 📸 1. Visual Ingestion (Home Tab)
-- Upload one or multiple photos of your fridge shelves or pantry
-- Z.AI GLM validates the image — non-food uploads (keyboards, pets) are immediately rejected to save compute and ensure data purity
-- Images are converted to Base64 and processed through a strict Economic Kitchen Manager system prompt
-
-### 📉 2. Economic & Freshness Analysis (Inventory Tab)
-- AI identifies individual ingredients, packaged goods, and leftovers from the photo
-- Items are categorized by expiry urgency:
-  - 🔴 **URGENT** — 1–2 days remaining (wilting spinach, leftover chicken)
-  - 🟡 **SOON** — 3–5 days remaining
-  - 🟢 **OK** — Pantry stable (dal, instant noodles)
-- Each at-risk item is assigned an estimated Malaysian Ringgit (RM) market value
-- Engine calculates the exact **Total Savable RM** sitting in your fridge right now
-
-### 🧑‍🍳 3. Dynamic Culinary Generation (Recipes Tab)
-- **Zero-database architecture** — no hardcoded recipe lookup, every dish is invented on the fly based strictly on what Z.AI sees in your photo
-- Generates 2–3 culturally authentic Malaysian dishes (Nasi Goreng Kampung, Mamak-Style Maggi Goreng, Curry Ayam Kampung) prioritizing URGENT ingredients first
-- **Smart Substitution Engine** — if a standard recipe needs coconut milk but only water and extra spices are visible, Z.AI adapts the recipe and explains the swap (e.g. *"Substituted missing Oyster Sauce with Soy Sauce and Sugar"*)
-- Every generated meal displays exactly how much RM the user saves by cooking it
-
-### 🏆 4. Gamified Impact Tracking (Impact & Rank Tab)
-- Total RM Saved and Total Meals Cooked tracked persistently in the Firebase project
-- **Chef Rank System** — users earn XP for rescuing food, progressing through titles:
-  - Novice Scraper → Kitchen Alchemist → Master of Leftovers
-- XP progress bar and level display updated in real time
-- Z.AI Recent Ratings history with star scores per meal
-- Habit-forming loop that rewards continuous waste reduction
-
----
-
-## 🧠 Technical Architecture
-
-```
-User uploads fridge photo
-        ↓
-React frontend converts image → Base64
-        ↓
-fetch() → Vite proxy → https://api.ilmu.ai/v1/chat/completions
-        ↓
-ILMU-GLM-5.1 (multimodal vision model by YTL AI Labs)
-        ↓
-Strict JSON output forced via system prompt:
-{ valid, insight, expiring[], meals[], totalSavableRM }
-        ↓
-Frontend parses JSON → updates React state
-        ↓
-Firebase Firestore persists stats, meals, XP
-        ↓
-UI re-renders with localized economic insights
-```
-
-**Why Z.AI is non-removable:** The entire decision pipeline — image validation, ingredient recognition, shelf-life assessment, RM valuation, adaptive recipe generation, and smart substitution — is performed exclusively by ILMU-GLM-5.1. Remove the model and the app returns zero meaningful output.
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | React 18 + Vite |
-| Language | TypeScript / JavaScript (ES6+) |
-| Styling | Tailwind CSS + inline styles |
-| Icons | Lucide React |
-| State Management | React Hooks (useState, useEffect, useRef) |
-| AI Decision Engine | Z.AI Vision API — ILMU-GLM-5.1 (YTL AI Labs) |
-| Database | Firebase Firestore |
-| Dev Environment | Visual Studio Code + Claude Code |
-| Version Control | Git + GitHub |
-
----
-
-## 🚀 Run Locally
-
-**Prerequisites:** Node.js 18+
-
-**1. Clone the repository**
 ```bash
-git clone https://github.com/HowardWoon/Kuliah-F3---UM-Hackathon-2026.git
-cd cook-gpt
-```
+# 1. Clone
+git clone https://github.com/USER/Cook.GPT.git
+cd Cook.GPT
 
-**2. Install dependencies**
-```bash
+# 2. Install
 npm install
-```
 
-**3. Set up environment variables**
-
-Create a `.env` file in the project root by copying `.env.example`:
-```bash
+# 3. Configure environment
 cp .env.example .env
 ```
 
-Fill in your values:
-```env
-# Z.AI GLM API (get from https://console.ilmu.ai)
-VITE_ZAI_API_KEY=your_ilmu_api_key_here
+Open `.env` and fill in your credentials:
 
-# Firebase (connects to the Cook.GPT Firebase project)
-VITE_FIREBASE_API_KEY=your_value
-VITE_FIREBASE_AUTH_DOMAIN=cookgpt-cda67.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=cookgpt-cda67
-VITE_FIREBASE_STORAGE_BUCKET=cookgpt-cda67.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=651715979467
-VITE_FIREBASE_APP_ID=1:651715979467:web:8d529d2b1fa6bb5dc9934e
-```
+| Variable | Description |
+|---|---|
+| `VITE_ZAI_API_KEY` | Your Z.AI (ILMU) API key |
+| `VITE_ZAI_MODEL` | Model name, e.g. `ilmu-glm-5.1` |
+| `VITE_FIREBASE_API_KEY` | Firebase Web API key |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_*` | Remaining Firebase config values |
 
-**4. Start the development server**
+### Run
+
 ```bash
 npm run dev
 ```
 
-**5. Open the app**
+Open **http://localhost:3000** and start scanning!
 
-Navigate to `http://localhost:3000` in your browser.
+### Deploy
 
-**6. Hosting note**
-
-The live website is hosted on Firebase Hosting at `https://cookgpt-cda67.web.app`. Your local app runs the same codebase and Firebase project configuration, so the only difference is the URL.
+```bash
+npm run build
+firebase deploy --only hosting --project cookgpt-cda67
+```
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| Frontend | React 18 + Vite | Fast SPA with HMR |
+| Styling | Tailwind CSS | Utility-first responsive design |
+| Icons | Material Symbols Outlined | Ligature-based icon system |
+| AI Engine | Z.AI Vision API (ILMU-GLM-5.1) | Image recognition & recipe generation |
+| Database | Firebase Firestore | Real-time cloud storage |
+| Hosting | Firebase Hosting | SSL + global CDN |
+
+---
+
+## Project Structure
 
 ```
-cook-gpt/
+Cook.GPT/
 ├── src/
-│   ├── App.tsx          # Main app — all tabs, state, API logic
-│   ├── firebase.ts      # Firebase initialization
-│   ├── main.tsx         # React entry point
-│   └── index.css        # Global styles
-├── .env                 # API keys (never commit this)
-├── .env.example         # Template for environment variables
-├── vite.config.ts       # Vite + proxy config for Z.AI API
+│   ├── components/
+│   │   └── layout/         # BottomNav, Layout shell
+│   ├── pages/
+│   │   ├── Home.tsx        # Dashboard + scan entry
+│   │   ├── Scanning.tsx    # Camera + AI analysis
+│   │   ├── Inventory.tsx   # Tracked ingredients
+│   │   ├── Recipes.tsx     # Recipe list
+│   │   ├── Recipe.tsx      # Single recipe detail
+│   │   ├── Profile.tsx     # Stats, XP, ratings
+│   │   └── Report.tsx      # AI feedback report
+│   ├── context/
+│   │   └── FridgeContext.tsx  # Global state (analysis, profile)
+│   ├── App.tsx             # Routes
+│   ├── firebase.ts         # Firebase config
+│   ├── main.tsx            # Entry point
+│   └── index.css           # Design tokens + Tailwind
+├── index.html              # Font imports (Public Sans, Material Symbols)
+├── firebase.json           # Hosting + rewrite rules
+├── .env.example            # Env template
 └── package.json
 ```
 
 ---
 
-## 🔮 Future Roadmap
+## Team — KuliahF3
 
-- **Receipt Scanning** — scan grocery receipts to cross-reference with fridge data for hyper-accurate RM tracking
-- **Push Notifications** — alerts when high-value items (meat, dairy) hit the 24-hour expiry window
-- **Community Leaderboards** — social tier where university students compete on least food wasted per semester
-- **Restock ROI Calculator** — before buying groceries, Z.AI predicts which items will actually get used vs wasted
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+| Name | Role |
+|---|---|
+| **Howard Woon Hao Zhe** | Project Lead · App Implementation · Repo Management |
+| **Yim Zi Hao** | PRD · System Analysis · QA Testing |
+| **Sanjay Mukojima Ravindran** | Pitch Video & Prototype Demo |
+| **Kingston Nuing Scott** | Presentation Pitch Deck |
 
 ---
 
 <div align="center">
 
-Built with ❤️ for **UMHackathon 2026**
+Built for **UMHackathon 2026**
+Domain 2: AI for Economic Empowerment & Decision Intelligence
 
-*Powered by Z.AI GLM — Decision Intelligence for Every Malaysian Kitchen*
+Powered by **Z.AI GLM**
 
 </div>

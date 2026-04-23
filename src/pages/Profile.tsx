@@ -108,7 +108,7 @@ export default function Profile() {
                         <span className="material-symbols-outlined text-[14px]">psychology</span>
                         <span className="font-label-sm text-[10px] uppercase font-bold tracking-wider">Z.AI Feedback</span>
                      </div>
-                     <p className="text-on-surface-variant text-[13px] leading-relaxed italic line-clamp-2">"{rating.feedback}"</p>
+                     <p className="text-on-surface-variant text-[13px] leading-relaxed italic whitespace-normal break-words">"{rating.feedback}"</p>
                  </div>
                )}
             </div>
