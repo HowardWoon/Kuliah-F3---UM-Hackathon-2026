@@ -58,21 +58,6 @@ Phone Camera ──► Z.AI Vision API ──► Ingredient List
                                     Profile & History
 ```
 
----
-
-## Screenshots
-
-| Home | Scanning | Inventory |
-|---|---|---|
-| Landing page with savings dashboard | Camera view with AI analysis | Tracked items with freshness status |
-
-| Recipes | Recipe Detail | Profile |
-|---|---|---|
-| AI-generated meal suggestions | Step-by-step with substitutions | XP, savings, and Z.AI ratings |
-
-> Add your screenshots to a `/screenshots` folder and update the image paths above.
-
----
 
 ## Getting Started
 
