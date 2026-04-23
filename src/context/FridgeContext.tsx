@@ -865,41 +865,41 @@ const DEMO_RESPONSE_LIBRARY: AnalysisData[] = [
 ];
 
 const DEMO_RATINGS: Record<string, MealFeedback> = {
-  default: { rating_out_of_10: 9, zai_feedback: "Excellent presentation! Your waste prevention instincts are sharp — using every perishable item before expiry is exactly what Z.AI recommends. Keep building that culinary intuition!", xp_gained: 150 },
-  "Village Fried Rice Rescue": { rating_out_of_10: 10, zai_feedback: "Perfect wok char! The garlic-shallot base beautifully compensated for the missing shrimp paste. This is exactly the kind of resourceful cooking Z.AI was built to inspire.", xp_gained: 200 },
-  "Quick Chicken & Tomato Stew": { rating_out_of_10: 8, zai_feedback: "Smart move boiling down the tomatoes for an instant broth! The chicken was tender and the sauce had real depth for a 25-min dish.", xp_gained: 130 },
-  "Clear Spinach & Egg Soup": { rating_out_of_10: 9, zai_feedback: "Comfort in a bowl. The soy-garlic base was surprisingly savory for an anchovy-free soup. Perfect light meal!", xp_gained: 140 },
-  "Pantry Rescue Lentil Curry": { rating_out_of_10: 9, zai_feedback: "A beautifully thick, aromatic lentil curry! Skipping the coconut milk was a genius move — the lentils provided all the creaminess needed. Authentic and economical.", xp_gained: 150 },
-  "Street-Style Fried Noodles": { rating_out_of_10: 10, zai_feedback: "Perfect street-stall flavor! The curry powder + seasoning packet combo is indistinguishable from a stall. This is exactly what Z.AI was built to inspire.", xp_gained: 200 },
-  "Stuffed Omelette": { rating_out_of_10: 8, zai_feedback: "Golden and fragrant! The cabbage gave it great crunch. A quick and effective way to use up aging aromatics — well done!", xp_gained: 120 },
-  "Hotplate-Style Sizzling Tofu": { rating_out_of_10: 9, zai_feedback: "Sizzling hot and full of flavor! The reduced oyster sauce glaze was genius — thick and glossy without any cornstarch. Restaurant quality!", xp_gained: 160 },
-  "Clear Tofu & Mushroom Soup": { rating_out_of_10: 8, zai_feedback: "Light, earthy, and deeply comforting. The mushroom broth trick worked beautifully. Proof that vegetarian cooking can be just as satisfying.", xp_gained: 130 },
-  "Coffeehouse Banana French Toast": { rating_out_of_10: 9, zai_feedback: "Absolutely brilliant! The banana batter made it naturally sweet, and the condensed milk drizzle gave it that authentic coffeehouse vibe. A breakfast game-changer!", xp_gained: 150 },
-  "Quick Bread Pudding Fritters": { rating_out_of_10: 9, zai_feedback: "Crispy outside, soft and sweet inside! The bite-sized fritter style was the perfect call — no oven needed and absolutely delicious. Afternoon snack hero!", xp_gained: 140 },
-  "Express Tom Yum Vermicelli": { rating_out_of_10: 10, zai_feedback: "Incredible depth of flavor from just paste and old lemongrass! The prawns were perfectly tender. This tastes like it took an hour, not 20 minutes.", xp_gained: 200 },
-  "Clear Lemongrass Prawn Broth": { rating_out_of_10: 9, zai_feedback: "That prawn shell stock trick is pure gold! Sweet, clear, and deeply satisfying. Proof that the best flavors come from what most people throw away.", xp_gained: 160 },
-  "Quick Soy-Glazed Chicken": { rating_out_of_10: 9, zai_feedback: "The old batter soaking up the soy glaze was genius — crispy, sticky, and absolutely addictive. Takeaway chicken never had it this good!", xp_gained: 150 },
-  "Shredded Chicken Garlic Fried Rice": { rating_out_of_10: 10, zai_feedback: "Using the chicken skin to fry the rice is next-level! That smoky flavor and crispy texture made this taste like restaurant-quality fried rice.", xp_gained: 200 },
-  "Spicy Sardine Toast": { rating_out_of_10: 8, zai_feedback: "The tomato sauce from the can was a brilliant shortcut! Crispy toast, savory topping — simple and satisfying. Great use of pantry odds and ends.", xp_gained: 120 },
-  "Sardine & Onion Fritters": { rating_out_of_10: 8, zai_feedback: "Using bread crumbs as a flour substitute worked perfectly! Crispy outside, soft inside. The lime squeeze at the end really made it sing.", xp_gained: 130 },
-  "Rendang Fried Rice Cubes": { rating_out_of_10: 10, zai_feedback: "Using the rendang fat to fry the rice cubes is the smartest thing I've seen! The spice paste caramelized onto every cube. Festive luxury, rescued.", xp_gained: 200 },
-  "Spicy Rice Egg Muffin": { rating_out_of_10: 8, zai_feedback: "The rendang center was a flavor bomb! Creative way to use up hardening rice. A satisfying brunch-style dish from pure leftovers.", xp_gained: 130 },
-  "Spicy Smashed Papaya Salad": { rating_out_of_10: 9, zai_feedback: "Who knew overripe papaya could taste this good? The sweet-sour-spicy balance was perfect. A refreshing rescue that beats any store-bought salad.", xp_gained: 140 },
-  "Caramelized Apple Quick Jam": { rating_out_of_10: 8, zai_feedback: "Slow-caramelized apples with just sugar and salt — sometimes simplicity wins. The jam was chunky, sweet, and deeply flavored. Perfect on toast!", xp_gained: 120 },
-  "Spicy Peanut Noodles": { rating_out_of_10: 9, zai_feedback: "That jar-shake sauce trick is brilliant! Creamy, nutty, and spicy — the peanut butter emulsion was silky smooth. Restaurant quality from condiments!", xp_gained: 150 },
-  "Smashed Cucumber Salad": { rating_out_of_10: 9, zai_feedback: "The smashing technique completely revived that limp cucumber! Crunchy, salty, and spicy. Three ingredients, zero waste, maximum flavor.", xp_gained: 140 },
-  "Crispy Potato Carrot Fritters": { rating_out_of_10: 9, zai_feedback: "Golden and crispy! The potato starch binding trick worked perfectly — no eggs needed. A crowd-pleasing snack from sprouting vegetables.", xp_gained: 140 },
-  "Mashed Root Veggie Hash": { rating_out_of_10: 8, zai_feedback: "That crispy crust on the bottom was everything! The carrots added a subtle sweetness to the potato mash. Comfort food at its most resourceful.", xp_gained: 120 },
-  "No-Bake Chocolate Biscuit Cake": { rating_out_of_10: 10, zai_feedback: "This is absolutely stunning! The hardened chocolate malt melted into the richest fudge layer. Nobody would guess this came from stale crackers and clumped powder.", xp_gained: 200 },
-  "Cracker Crust Sweet Pancakes": { rating_out_of_10: 8, zai_feedback: "Creative and tasty! The cracker powder gave the pancakes a unique nutty texture. Condensed milk made them perfectly sweet without any sugar.", xp_gained: 130 },
-  "Chopped Flatbread Stir-fry": { rating_out_of_10: 9, zai_feedback: "The curry hydrating the old flatbread was a stroke of genius! Every bite was packed with flavor. This is street food reinvented from leftovers.", xp_gained: 150 },
-  "Curry Soup with Crispy Croutons": { rating_out_of_10: 8, zai_feedback: "Those crispy croutons floating on top were everything! The contrast of crunch and warm curry soup was deeply satisfying. Simple and smart.", xp_gained: 130 },
-  "Sweet & Spicy Tempeh Stir-fry": { rating_out_of_10: 9, zai_feedback: "Frying the tempeh first completely eliminated the pungent smell — brilliant technique! The sweet soy glaze was sticky and addictive.", xp_gained: 150 },
-  "Crispy Tempeh Fries": { rating_out_of_10: 9, zai_feedback: "These are dangerously addictive! Golden, crunchy, and perfect with the chili-soy dip. Who needs potato fries when tempeh fries exist?", xp_gained: 140 },
-  "Fishball Cabbage Stir-fry": { rating_out_of_10: 8, zai_feedback: "Simple, homey, and satisfying. Letting the cabbage sweetness shine without oyster sauce was a smart call. Proof that less is more.", xp_gained: 120 },
-  "Clear Fishball Rice Soup": { rating_out_of_10: 9, zai_feedback: "Pure comfort in a bowl! The rice soaking up the garlicky broth was like a warm hug. Adding rice instead of noodles was a genius move.", xp_gained: 140 },
-  "Creamy Curry Noodles": { rating_out_of_10: 10, zai_feedback: "The mayo-egg-curry emulsion is absolutely viral-worthy! Insanely creamy and rich — no one would believe this came from instant noodles and mayonnaise.", xp_gained: 200 },
-  "Crispy Noodle Omelette": { rating_out_of_10: 9, zai_feedback: "Crispy on the outside, chewy on the inside! The mustard greens gave it a fresh crunch. A filling meal from almost nothing — student genius!", xp_gained: 150 },
+  default: { rating_out_of_10: 7.5, zai_feedback: "Good effort! You used most of your at-risk ingredients. A few more seasoning tweaks and this could be a standout. Keep experimenting!", xp_gained: 120 },
+  "Village Fried Rice Rescue": { rating_out_of_10: 9, zai_feedback: "Great wok technique! The garlic-shallot base compensated well for the missing shrimp paste. Solid rescue of all four urgent items.", xp_gained: 170 },
+  "Quick Chicken & Tomato Stew": { rating_out_of_10: 7, zai_feedback: "The tomato broth idea was smart, but the chicken was slightly overcooked. Reduce the simmer time next time and this jumps a full point.", xp_gained: 100 },
+  "Clear Spinach & Egg Soup": { rating_out_of_10: 7.5, zai_feedback: "Comforting and light. The soy-garlic base was a decent anchovy substitute, though a touch more salt would round it out. Nice weeknight option.", xp_gained: 110 },
+  "Pantry Rescue Lentil Curry": { rating_out_of_10: 8, zai_feedback: "Good thickness without coconut milk — the lentils did the heavy lifting. Could use a bit more spice depth, but a reliable budget curry.", xp_gained: 130 },
+  "Street-Style Fried Noodles": { rating_out_of_10: 8.5, zai_feedback: "That curry powder + seasoning combo is clever and gets close to stall flavor. A touch too salty though — halve the seasoning packet next time.", xp_gained: 150 },
+  "Stuffed Omelette": { rating_out_of_10: 6.5, zai_feedback: "Decent use of aging veggies, but the omelette came out a bit flat. More filling and a crispier sear would elevate this from basic to impressive.", xp_gained: 80 },
+  "Hotplate-Style Sizzling Tofu": { rating_out_of_10: 8.5, zai_feedback: "The reduced oyster sauce trick worked well for a cornstarch-free glaze. Tofu was nicely golden. A bit one-dimensional — add chili for balance.", xp_gained: 140 },
+  "Clear Tofu & Mushroom Soup": { rating_out_of_10: 7, zai_feedback: "Light and earthy. The mushroom broth had good depth but the tofu was a bit bland on its own. A dash of soy at the end would help.", xp_gained: 100 },
+  "Coffeehouse Banana French Toast": { rating_out_of_10: 8.5, zai_feedback: "The banana batter was a smart natural sweetener and the condensed milk drizzle worked well. Bread could be soaked a bit longer for creamier center.", xp_gained: 140 },
+  "Quick Bread Pudding Fritters": { rating_out_of_10: 7.5, zai_feedback: "Creative no-oven approach! Crispy outside, soft inside, but a touch too sweet with the condensed milk. Dial it back and these shine.", xp_gained: 110 },
+  "Express Tom Yum Vermicelli": { rating_out_of_10: 8.5, zai_feedback: "Impressive depth from just paste and lemongrass. Prawns were tender but slightly overcooked — pull them 30 seconds earlier next time.", xp_gained: 150 },
+  "Clear Lemongrass Prawn Broth": { rating_out_of_10: 8, zai_feedback: "The prawn shell stock was a great technique — naturally sweet and clear. Needed a bit more lemongrass punch to really stand out.", xp_gained: 130 },
+  "Quick Soy-Glazed Chicken": { rating_out_of_10: 7.5, zai_feedback: "Crispy and sticky, but the old batter soaked up too much soy — got quite salty toward the end. A splash of water in the glaze would fix it.", xp_gained: 110 },
+  "Shredded Chicken Garlic Fried Rice": { rating_out_of_10: 8, zai_feedback: "Using chicken skin fat to fry was resourceful. Rice had good smokiness but could be drier — spread it thinner in the wok next time.", xp_gained: 130 },
+  "Spicy Sardine Toast": { rating_out_of_10: 6.5, zai_feedback: "Quick and filling, but the fishy aroma was strong. Toasting the bread longer and adding more lime would help balance. Simple does not mean sloppy.", xp_gained: 80 },
+  "Sardine & Onion Fritters": { rating_out_of_10: 7, zai_feedback: "The bread-crumb binder idea works. Fritters held together but were slightly mushy inside — fry at higher heat for a crisper shell.", xp_gained: 90 },
+  "Rendang Fried Rice Cubes": { rating_out_of_10: 9, zai_feedback: "The rendang fat frying technique is outstanding — spice paste caramelized beautifully on every cube. A touch greasy, but flavor-wise this is top-tier.", xp_gained: 170 },
+  "Spicy Rice Egg Muffin": { rating_out_of_10: 6.5, zai_feedback: "The rendang center was a nice surprise, but the rice-egg mix was a bit dense. More egg and less rice would give it a lighter, fluffier texture.", xp_gained: 80 },
+  "Spicy Smashed Papaya Salad": { rating_out_of_10: 7.5, zai_feedback: "Surprisingly good for overripe papaya. The sweet-sour-spicy balance was decent but leaned too sweet — dial up the lime and chili.", xp_gained: 110 },
+  "Caramelized Apple Quick Jam": { rating_out_of_10: 7, zai_feedback: "Simple and homey. The apples broke down well but the sugar was heavy. A pinch of salt earlier would draw out natural sweetness and need less added sugar.", xp_gained: 90 },
+  "Spicy Peanut Noodles": { rating_out_of_10: 8, zai_feedback: "The jar-shake sauce trick is clever and the emulsion was smooth. Noodles were slightly overcooked — drain 30 seconds earlier for better chew.", xp_gained: 130 },
+  "Smashed Cucumber Salad": { rating_out_of_10: 7.5, zai_feedback: "Good technique reviving limp cucumber. Crunchy and salty, but needed more acidity. A squeeze of lime or vinegar would brighten it considerably.", xp_gained: 100 },
+  "Crispy Potato Carrot Fritters": { rating_out_of_10: 7.5, zai_feedback: "Crispy exterior, decent binding without eggs. The carrot made them slightly sweet which was unexpected. More seasoning in the batter would help.", xp_gained: 100 },
+  "Mashed Root Veggie Hash": { rating_out_of_10: 6.5, zai_feedback: "The crispy bottom was the best part, but the mash itself was a bit bland. Salt more aggressively and add garlic next time.", xp_gained: 80 },
+  "No-Bake Chocolate Biscuit Cake": { rating_out_of_10: 8.5, zai_feedback: "Impressive transformation of stale crackers and hardened powder. Rich and fudgy, though very sweet — a pinch of salt in the mix would balance it.", xp_gained: 140 },
+  "Cracker Crust Sweet Pancakes": { rating_out_of_10: 6.5, zai_feedback: "Creative cracker-powder batter, but the texture was grainy. Finer crushing and an extra egg would make these much smoother.", xp_gained: 80 },
+  "Chopped Flatbread Stir-fry": { rating_out_of_10: 7.5, zai_feedback: "Good use of curry to hydrate old flatbread. Flavorful but the bread got soggy quickly — stir-fry at higher heat and serve immediately.", xp_gained: 110 },
+  "Curry Soup with Crispy Croutons": { rating_out_of_10: 7, zai_feedback: "The crouton contrast was nice. Soup itself was a bit thin — reduce the added water and let the curry paste do more of the talking.", xp_gained: 90 },
+  "Sweet & Spicy Tempeh Stir-fry": { rating_out_of_10: 8, zai_feedback: "Frying the tempeh first was the right call — killed the pungency. The sweet soy glaze was good but could use more chili to cut through the sweetness.", xp_gained: 130 },
+  "Crispy Tempeh Fries": { rating_out_of_10: 7.5, zai_feedback: "Crunchy and satisfying with the chili-soy dip. Tempeh was a bit dry inside — a quick brine before frying would add moisture and seasoning.", xp_gained: 100 },
+  "Fishball Cabbage Stir-fry": { rating_out_of_10: 6.5, zai_feedback: "Simple and honest home cooking. The cabbage was nicely cooked but the dish lacked seasoning depth. A splash of soy or sesame oil would lift it.", xp_gained: 80 },
+  "Clear Fishball Rice Soup": { rating_out_of_10: 7, zai_feedback: "Comforting, but the rice made it starchy and heavy. Using less rice or adding it later would keep the broth clearer and lighter.", xp_gained: 90 },
+  "Creamy Curry Noodles": { rating_out_of_10: 8, zai_feedback: "The mayo-curry emulsion is creative and creamy. A bit heavy though — half the mayo and add a splash of noodle water for a lighter but still rich broth.", xp_gained: 130 },
+  "Crispy Noodle Omelette": { rating_out_of_10: 7, zai_feedback: "Nice crunch from the noodles, but the curry seasoning was uneven — some bites bland, some overpowering. Mix the powder through more thoroughly.", xp_gained: 90 },
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -951,9 +951,9 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
     saved_rm: DEFAULT_TOTAL_SAVED,
     meals_rated: 18,
     recent_ratings: [
-      { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.8, feedback: "Perfect wok char! The garlic-shallot base beautifully compensated for the missing shrimp paste." },
-      { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 9.2, feedback: "Thickened up nicely without coconut milk. Huge money saver." },
-      { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 9.5, feedback: "The banana batter was genius — naturally sweet with zero waste." },
+      { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.0, feedback: "Great wok technique! The garlic-shallot base compensated well for the missing shrimp paste." },
+      { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 8.0, feedback: "Good thickness without coconut milk. Could use more spice depth, but a reliable budget curry." },
+      { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 8.5, feedback: "Smart natural sweetener with the banana batter. Bread could be soaked longer for creamier center." },
     ]
   });
   const [apiKey, setApiKey] = useState('');
@@ -968,9 +968,9 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
       xp: Math.round(DEFAULT_TOTAL_SAVED * 10),
       meals_rated: 18,
       recent_ratings: [
-        { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.8, feedback: "Perfect wok char! The garlic-shallot base beautifully compensated for the missing shrimp paste." },
-        { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 9.2, feedback: "Thickened up nicely without coconut milk. Huge money saver." },
-        { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 9.5, feedback: "The banana batter was genius — naturally sweet with zero waste." },
+        { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.0, feedback: "Great wok technique! The garlic-shallot base compensated well for the missing shrimp paste." },
+        { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 8.0, feedback: "Good thickness without coconut milk. Could use more spice depth, but a reliable budget curry." },
+        { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 8.5, feedback: "Smart natural sweetener with the banana batter. Bread could be soaked longer for creamier center." },
       ],
     });
   };
@@ -1034,7 +1034,7 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
   const cookMeal = async (mealName: string, wasteSavedRm: number) => {
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " at " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-    const rating = DEMO_RATINGS[mealName] || { rating_out_of_10: 9.5, zai_feedback: "Saved perfectly good ingredients from the bin! Easy to follow.", xp_gained: Math.round(wasteSavedRm * 10) };
+    const rating = DEMO_RATINGS[mealName] || { rating_out_of_10: 7.5, zai_feedback: "Good effort using your available ingredients. Some seasoning adjustments would elevate this further. Keep cooking!", xp_gained: Math.round(wasteSavedRm * 10) };
     setProfileData(prev => prev ? {
       ...prev,
       saved_rm: prev.saved_rm + wasteSavedRm,

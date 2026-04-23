@@ -82,10 +82,10 @@ export default function Home() {
           aria-label="Upload fridge photos"
           title="Upload fridge photos"
         />
-        <button type="button" onClick={handleScanClick} className="w-full bg-emerald-600 text-on-primary py-[18px] px-6 rounded-xl shadow-[0_8px_24px_rgba(5,150,105,0.25)] flex items-center justify-center gap-stack-sm active:scale-95 transition-all hover:bg-emerald-700 hover:shadow-[0_12px_28px_rgba(5,150,105,0.3)] group relative overflow-hidden">
+        <button type="button" onClick={handleScanClick} className="w-full bg-emerald-600 text-on-primary py-5 px-6 rounded-2xl shadow-[0_8px_24px_rgba(5,150,105,0.25)] flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-emerald-700 hover:shadow-[0_12px_28px_rgba(5,150,105,0.3)] group relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera_front</span>
-          <span className="font-label-sm text-label-sm text-on-primary text-[16px] tracking-wide">Scan Your Ingredients !</span>
+          <span className="material-symbols-outlined text-[28px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera_front</span>
+          <span className="text-on-primary text-[18px] font-bold tracking-wide">Scan Your Ingredients</span>
         </button>
 
         {validationError && (
