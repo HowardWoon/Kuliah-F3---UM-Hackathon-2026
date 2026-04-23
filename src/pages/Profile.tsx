@@ -96,7 +96,7 @@ export default function Profile() {
                         <span className="material-symbols-outlined text-[24px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>restaurant</span>
                       </div>
                       <div>
-                          <h4 className="font-body-md font-bold text-on-surface line-clamp-1">{rating.meal_name}</h4>
+                          <h4 className="font-body-md font-bold text-on-surface">{rating.meal_name}</h4>
                           <p className="text-[11px] text-on-surface-variant mt-0.5">{rating.date}</p>
                       </div>
                    </div>

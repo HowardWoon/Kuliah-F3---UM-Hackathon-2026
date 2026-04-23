@@ -48,7 +48,7 @@ export default function Recipes() {
                       <span className="material-symbols-outlined text-[12px]">savings</span>
                       RM {recipe.waste_saved_rm.toFixed(2)}
                     </span>
-                    <h3 className="font-bold text-gray-900 text-[16px] line-clamp-1 pr-20">{recipe.meal_name}</h3>
+                    <h3 className="font-bold text-gray-900 text-[16px] pr-20">{recipe.meal_name}</h3>
                   </div>
                   <p className="text-on-surface-variant text-xs line-clamp-1 leading-tight opacity-80 mt-1">
                     {recipe.cuisine} &bull; {recipe.ingredients_used.length} ingredients

@@ -1032,6 +1032,12 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const cookMeal = async (mealName: string, wasteSavedRm: number) => {
+    const alreadyCooked = profileData?.recent_ratings?.some(r => r.meal_name === mealName);
+    if (alreadyCooked) {
+      setToastMessage(`Already logged! RM ${wasteSavedRm.toFixed(2)} was already saved.`);
+      setTimeout(() => setToastMessage(null), 3000);
+      return;
+    }
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " at " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
     const rating = DEMO_RATINGS[mealName] || { rating_out_of_10: 7.5, zai_feedback: "Good effort using your available ingredients. Some seasoning adjustments would elevate this further. Keep cooking!", xp_gained: Math.round(wasteSavedRm * 10) };
@@ -1048,6 +1054,13 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
 
   // DEMO MODE: hardcoded meal rating, varies by dish name
   const rateCookedMeal = async (file: File, mealName: string, wasteSavedRm: number) => {
+    const alreadyCooked = profileData?.recent_ratings?.some(r => r.meal_name === mealName);
+    if (alreadyCooked) {
+      setToastMessage(`Already logged! RM ${wasteSavedRm.toFixed(2)} was already saved.`);
+      setTimeout(() => setToastMessage(null), 3000);
+      return;
+    }
+
     setIsRatingMeal(true);
     setMealFeedback(null);
 

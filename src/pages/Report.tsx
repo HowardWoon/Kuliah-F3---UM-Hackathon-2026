@@ -57,7 +57,7 @@ export default function Report() {
               <div className="p-stack-md py-3 flex flex-col gap-1 flex-grow justify-between">
                 <div className="flex flex-col items-start gap-1">
                   <span className="bg-secondary-container text-on-secondary-container font-label-sm text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap self-end absolute top-3 right-3 shadow-sm border border-secondary/10">Save RM {meal.waste_saved_rm.toFixed(2)}</span>
-                  <h3 className="font-body-lg text-body-lg font-semibold text-on-surface line-clamp-1 pr-16">{idx + 1}. {meal.meal_name}</h3>
+                  <h3 className="font-body-lg text-body-lg font-semibold text-on-surface pr-16">{idx + 1}. {meal.meal_name}</h3>
                 </div>
                 <p className="text-on-surface-variant text-xs flex items-start gap-1 line-clamp-3 leading-relaxed">
                   <span className="material-symbols-outlined text-error text-[14px] shrink-0 mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>psychology</span>
