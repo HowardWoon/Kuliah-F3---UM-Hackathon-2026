@@ -2,29 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFridgeContext } from "../context/FridgeContext";
 
-const detectionBoxes = [
-  {
-    id: "cauliflower",
-    className: "absolute border border-teal-400 rounded-sm top-[60%] left-[25%] w-[45%] h-[15%] transition-all duration-700",
-    fallbackLabel: "Cauliflower",
-  },
-  {
-    id: "nam-ru",
-    className: "absolute border border-teal-400 rounded-sm top-[75%] left-[75%] w-[20%] h-[12%] transition-all duration-700 delay-100",
-    fallbackLabel: "Nam Ru",
-  },
-  {
-    id: "eggs",
-    className: "absolute border border-teal-400 rounded-sm top-[42%] left-[30%] w-[35%] h-[10%] transition-all duration-700 delay-200",
-    fallbackLabel: "Eggs",
-  },
-  {
-    id: "top-shelf",
-    className: "absolute border border-teal-400 rounded-sm top-[30%] left-[20%] w-[25%] h-[8%] transition-all duration-700 delay-300",
-    fallbackLabel: "Top Shelf",
-  },
-];
-
 export default function Scanning() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,17 +9,6 @@ export default function Scanning() {
 
   const previewUrls: string[] = location.state?.previewUrls || [];
   const scanBackgroundImage = previewUrls[0] || "/fridge_full_demo.jpg";
-
-  const [detectedNames, setDetectedNames] = useState<string[]>([]);
-
-  // Only reveal ingredient names AFTER loading completes
-  useEffect(() => {
-    if (analysisData && !isAnalyzing) {
-      setDetectedNames(analysisData.ingredients.map(i => i.name));
-    } else if (isAnalyzing) {
-      setDetectedNames([]);
-    }
-  }, [analysisData, isAnalyzing]);
 
   // Navigate away when analysis completes
   useEffect(() => {
@@ -61,6 +27,16 @@ export default function Scanning() {
     : 0;
 
   return (
+    <>
+      <style>{`
+        @keyframes deep-scan {
+          0% { transform: translateY(0%); }
+          100% { transform: translateY(100%); }
+        }
+        .animate-deep-scan {
+          animation: deep-scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+        }
+      `}</style>
     <div className="w-full min-h-screen bg-slate-900 flex items-center justify-center sm:p-4">
       <div className="max-w-md w-full mx-auto h-[100dvh] sm:h-[844px] bg-black flex flex-col relative overflow-hidden shadow-2xl sm:rounded-[40px] ring-1 ring-white/10">
         <div className="absolute top-0 w-full h-1/2 left-0 right-0 z-0 overflow-hidden">
@@ -73,23 +49,26 @@ export default function Scanning() {
           <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
 
           {isAnalyzing && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] flex items-center justify-center transition-all duration-500 pointer-events-none">
-              <div className="relative h-[42%] w-[72%] rounded-xl border border-emerald-300/40 shadow-[0_0_24px_rgba(16,185,129,0.25)] animate-pulse">
-                <div className="absolute left-4 right-4 top-1/2 h-[2px] -translate-y-1/2 bg-emerald-300/90 shadow-[0_0_16px_rgba(52,211,153,0.9)] animate-pulse" />
+            <div className="absolute top-[10%] left-[10%] w-[80%] h-[80%] flex items-center justify-center animate-pulse overflow-hidden">
+              <div className="w-16 h-16 border-t-8 border-l-8 border-teal-400 absolute top-0 left-0 rounded-tl-xl z-10" />
+              <div className="w-16 h-16 border-t-8 border-r-8 border-teal-400 absolute top-0 right-0 rounded-tr-xl z-10" />
+              <div className="w-16 h-16 border-b-8 border-l-8 border-teal-400 absolute bottom-0 left-0 rounded-bl-xl z-10" />
+              <div className="w-16 h-16 border-b-8 border-r-8 border-teal-400 absolute bottom-0 right-0 rounded-br-xl z-10" />
+
+              <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                <div className="w-full h-full relative animate-deep-scan">
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-teal-300 shadow-[0_0_15px_rgba(45,212,191,1),0_0_30px_rgba(45,212,191,0.5)] z-50"></div>
+                  <div className="absolute top-[2px] left-0 w-full h-24 bg-gradient-to-b from-teal-400/30 to-transparent"></div>
+                </div>
+              </div>
+
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+                <div className="w-[1px] h-full bg-teal-500/50"></div>
+                <div className="w-full h-[1px] absolute bg-teal-500/50"></div>
+                <div className="w-4 h-4 border border-teal-400 rounded-full absolute"></div>
               </div>
             </div>
           )}
-
-          {detectionBoxes.map((box, i) => (
-            <div
-              key={box.id}
-              className={`${box.className} ${isAnalyzing ? "shadow-[0_0_16px_rgba(45,212,191,0.55)] animate-pulse" : "shadow-[0_0_12px_rgba(45,212,191,0.35)] opacity-90"}`}
-            >
-              <span className={`absolute -top-3 left-0 px-2 py-0.5 bg-teal-500/90 text-white font-label-sm text-[10px] rounded-sm shadow-md whitespace-nowrap ${isAnalyzing ? "animate-pulse" : ""}`}>
-                {isAnalyzing ? "Scanning..." : detectedNames[i] || box.fallbackLabel}
-              </span>
-            </div>
-          ))}
         </div>
 
         <header className="absolute top-0 w-full p-gutter pt-10 flex justify-between items-center z-20">
@@ -147,5 +126,6 @@ export default function Scanning() {
         </div>
       </div>
     </div>
+    </>
   );
 }
