@@ -126,6 +126,8 @@ npm run build
 firebase deploy --only hosting --project cookgpt-cda67
 ```
 
+> 🔒 &nbsp;**Note:** Firebase configuration values are intentionally excluded from this repository to protect the live production database from unauthorised access and abuse. To run this project locally, please create your own Firebase project at [console.firebase.google.com](https://console.firebase.google.com), enable Firestore, and populate your own `.env` file using the template above. The app is fully functional with any valid Firebase project.
+
 ---
 
 ## Tech Stack
