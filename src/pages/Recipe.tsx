@@ -5,9 +5,10 @@ import { MealDecision, useFridgeContext } from "../context/FridgeContext";
 export default function Recipe() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { rateCookedMeal, isRatingMeal, mealFeedback, setMealFeedback } = useFridgeContext();
+  const { rateCookedMeal, mealFeedback, setMealFeedback } = useFridgeContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [completedUpTo, setCompletedUpTo] = useState(-1);
+  const [isRating, setIsRating] = useState(false);
 
   const handleStepClick = (idx: number) => {
     setCompletedUpTo(prev => prev === idx ? idx - 1 : idx);
@@ -18,12 +19,27 @@ export default function Recipe() {
   const meal = location.state?.meal as MealDecision | undefined;
 
   const handleCaptureClick = () => {
+    if (isRating) return;
     fileInputRef.current?.click();
+  };
+
+  const handleSnapForRating = async (recipe: MealDecision, selectedFile?: File) => {
+    if (isRating) return;
+
+    setIsRating(true);
+    setMealFeedback(null);
+
+    await new Promise((resolve) => setTimeout(resolve, 4000));
+
+    const demoFile = selectedFile || new File(["zai-demo"], "zai-rating-demo.jpg", { type: "image/jpeg" });
+    await rateCookedMeal(demoFile, recipe.meal_name, recipe.waste_saved_rm);
+    setIsRating(false);
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0] && meal) {
-      await rateCookedMeal(e.target.files[0], meal.meal_name, meal.waste_saved_rm);
+      await handleSnapForRating(meal, e.target.files[0]);
+      e.target.value = "";
     }
   };
 
@@ -46,7 +62,15 @@ export default function Recipe() {
         <div className="w-8" />
       </header>
 
-      <div className="overflow-y-auto flex-1 pb-24">
+      <div className="overflow-y-auto flex-1 pb-24 relative">
+        {isRating && (
+          <div className="absolute inset-0 z-30 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6">
+            <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl px-6 py-5 shadow-2xl flex items-center gap-3 max-w-sm w-full">
+              <span className="material-symbols-outlined animate-spin text-primary">hourglass_top</span>
+              <span className="font-body-md text-on-surface">ILMU-GLM-5.1 analyzing final dish presentation...</span>
+            </div>
+          </div>
+        )}
         <div className="relative w-full h-48 overflow-hidden">
           <img src={meal.image_src} alt={meal.meal_name} className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}></div>
@@ -159,8 +183,8 @@ export default function Recipe() {
           aria-label="Upload cooked meal photo"
           title="Upload cooked meal photo"
         />
-        <button type="button" disabled={isRatingMeal} onClick={handleCaptureClick} className="w-full rounded-xl bg-emerald-600 text-white font-bold py-3.5 transition-all active:scale-95 flex items-center justify-center gap-2">
-          {isRatingMeal ? (
+        <button type="button" disabled={isRating} onClick={handleCaptureClick} className="w-full rounded-xl bg-emerald-600 text-white font-bold py-3.5 transition-all active:scale-95 flex items-center justify-center gap-2">
+          {isRating ? (
             <>
               <span className="material-symbols-outlined animate-spin" style={{ fontVariationSettings: "'FILL' 1" }}>hourglass_top</span>
               <span className="text-[14px]">Z.AI Rating in Progress...</span>

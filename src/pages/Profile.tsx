@@ -76,9 +76,8 @@ export default function Profile() {
       </section>
 
       <section className="flex flex-col gap-stack-sm mt-4">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center mb-2">
            <h3 className="font-headline-md text-headline-md text-on-surface">Z.AI Recent Ratings</h3>
-           <span className="text-primary font-label-sm text-[12px] bg-primary/10 px-3 py-1 rounded-full cursor-pointer hover:bg-primary/20 transition-colors">See All</span>
         </div>
 
         {(!profileData.recent_ratings || profileData.recent_ratings.length === 0) ? (

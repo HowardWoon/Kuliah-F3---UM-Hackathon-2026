@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-export type Ingredient = { name: string; quantity: string; freshness: "fresh"|"aging"|"expiring_soon"; estimated_cost_rm: number; };
+export type Ingredient = { name: string; quantity: string; freshness: "fresh"|"aging"|"expiring_soon"; estimated_cost_rm: number; description?: string; };
 export type ExpiryAlert = { ingredient: string; urgency: "today"|"tomorrow"; };
-export type MealDecision = { meal_name: string; cuisine: string; ingredients_used: string[]; missing_ingredients: string[]; zai_priority_reason: string; waste_saved_rm: number; recipe_steps: string[]; image_src: string; };
-export type AnalysisData = { is_valid: boolean; rejection_message?: string; ingredients: Ingredient[]; expiry_alerts: ExpiryAlert[]; meal_decisions: MealDecision[]; glm_insight: string; };
+export type MealDecision = { meal_name: string; cuisine: string; ingredients_used: string[]; missing_ingredients: string[]; zai_priority_reason: string; waste_saved_rm: number; recipe_steps: string[]; image_src: string; prep_time_min?: number; rm_saved?: number; smart_substitution?: { missing: string; substitution: string }; };
+export type AnalysisData = { is_valid: boolean; rejection_message?: string; ingredients: Ingredient[]; expiry_alerts: ExpiryAlert[]; meal_decisions: MealDecision[]; glm_insight: string; totalSavableRM?: number; urgent_alert?: { count: number; at_risk_rm: number }; };
 
 export type MealFeedback = { rating_out_of_10: number; zai_feedback: string; xp_gained: number; };
 
@@ -900,6 +900,95 @@ const DEMO_RATINGS: Record<string, MealFeedback> = {
   "Clear Fishball Rice Soup": { rating_out_of_10: 7, zai_feedback: "Comforting, but the rice made it starchy and heavy. Using less rice or adding it later would keep the broth clearer and lighter.", xp_gained: 90 },
   "Creamy Curry Noodles": { rating_out_of_10: 8, zai_feedback: "The mayo-curry emulsion is creative and creamy. A bit heavy though — half the mayo and add a splash of noodle water for a lighter but still rich broth.", xp_gained: 130 },
   "Crispy Noodle Omelette": { rating_out_of_10: 7, zai_feedback: "Nice crunch from the noodles, but the curry seasoning was uneven — some bites bland, some overpowering. Mix the powder through more thoroughly.", xp_gained: 90 },
+  "Nam Ru Stir-fried Cabbage & Cauliflower": { rating_out_of_10: 9, zai_feedback: "Excellent umami control from Nam Ru. The cabbage and cauliflower stayed crisp while picking up deep savory flavor.", xp_gained: 180 },
+  "Golden Egg Vegetable Scramble": { rating_out_of_10: 8, zai_feedback: "Fast and balanced comfort dish. The egg-to-veg ratio worked well and kept it filling without extra sauces.", xp_gained: 140 },
+};
+
+const GOLDEN_DEMO_STATE: AnalysisData = {
+  is_valid: true,
+  totalSavableRM: 23,
+  urgent_alert: { count: 3, at_risk_rm: 10.5 },
+  ingredients: [
+    { name: "Whole Cauliflower", quantity: "1", freshness: "aging", estimated_cost_rm: 5, description: "Foam netting, crisper drawer" },
+    { name: "White Cabbage (Half)", quantity: "1", freshness: "expiring_soon", estimated_cost_rm: 3.5, description: "Clear plastic bag, crisper drawer" },
+    { name: "Japanese Cucumber", quantity: "1", freshness: "aging", estimated_cost_rm: 2, description: "Crisper drawer" },
+    { name: "Carrot", quantity: "1", freshness: "fresh", estimated_cost_rm: 1.5, description: "Striped plastic bag" },
+    { name: "Grade A Eggs (Tray)", quantity: "1", freshness: "aging", estimated_cost_rm: 12.5, description: "Middle shelf, back" },
+    { name: "Red Fermented Bean Curd (Nam Ru)", quantity: "1", freshness: "fresh", estimated_cost_rm: 6, description: "Recognized text on jar, Fridge Door" },
+  ],
+  expiry_alerts: [
+    { ingredient: "White Cabbage (Half)", urgency: "today" },
+    { ingredient: "Whole Cauliflower", urgency: "tomorrow" },
+    { ingredient: "Grade A Eggs (Tray)", urgency: "tomorrow" },
+  ],
+  meal_decisions: [
+    {
+      meal_name: "Nam Ru Stir-fried Cabbage & Cauliflower",
+      cuisine: "Malaysian Chinese",
+      ingredients_used: ["White Cabbage (Half)", "Whole Cauliflower", "Red Fermented Bean Curd (Nam Ru)"],
+      missing_ingredients: ["Oyster Sauce, Garlic & Meat"],
+      zai_priority_reason: "Z.AI detected Nam Ru (Red Fermented Bean Curd) on the fridge door and uses it as an umami flavor bomb to replace oyster sauce or meat while rescuing aging cabbage and cauliflower.",
+      waste_saved_rm: 14.5,
+      image_src: "/meals/nam_ru_cabbage.jpg",
+      prep_time_min: 15,
+      rm_saved: 14.5,
+      smart_substitution: {
+        missing: "Oyster Sauce, Garlic & Meat",
+        substitution: "Use Nam Ru from the fridge door as a concentrated savory base, replacing oyster sauce and meat while boosting depth in the vegetable stir-fry.",
+      },
+      recipe_steps: [
+        "1. Chop the aging cabbage and break the cauliflower into small bite-sized florets.",
+        "2. In a small bowl, mash 1-2 cubes of the Red Fermented Bean Curd (Nam Ru) with a splash of water and sugar to create a paste.",
+        "3. Heat oil in a wok or large pan until smoking.",
+        "4. Toss in the cauliflower first and stir-fry for 2 minutes to get some color.",
+        "5. Add the cabbage and pour in the Nam Ru paste.",
+        "6. Toss aggressively on high heat for another 3 minutes until the vegetables are tender but still have a slight crunch. Serve hot with rice.",
+      ],
+    },
+    {
+      meal_name: "Golden Egg Vegetable Scramble",
+      cuisine: "Malaysian Home",
+      ingredients_used: ["Grade A Eggs (Tray)", "White Cabbage (Half)", "Carrot"],
+      missing_ingredients: ["Spring Onions & Soy Sauce"],
+      zai_priority_reason: "Maximizes the crunch of carrots and cabbage by shredding them finely and folding them into eggs to create a hearty vegetable scramble without extra garnishes.",
+      waste_saved_rm: 21,
+      image_src: "/meals/veg_egg_scramble.jpg",
+      prep_time_min: 10,
+      rm_saved: 21,
+      smart_substitution: {
+        missing: "Spring Onions & Soy Sauce",
+        substitution: "Shred cabbage and carrot finely into the egg base for body, texture, and natural sweetness, reducing dependence on condiments.",
+      },
+      recipe_steps: [
+        "1. Finely shred the cabbage and grate the carrot.",
+        "2. Crack 3-4 eggs into a bowl, season with salt and pepper, and beat well.",
+        "3. Lightly sauté the shredded cabbage and carrots in a pan until just softened (about 2 minutes).",
+        "4. Pour the beaten eggs directly over the vegetables.",
+        "5. Scramble gently until the eggs are cooked to your liking.",
+      ],
+    },
+  ],
+  glm_insight: "Composite drawer + full-fridge analysis detected a Nam Ru jar match and prioritized cabbage, cauliflower, and eggs for immediate rescue.",
+};
+
+const INITIAL_COOKBOOK_LIBRARY: AnalysisData[] = [DEMO_RESPONSE_LIBRARY[0], DEMO_RESPONSE_LIBRARY[1]];
+
+const cloneAnalysisData = (data: AnalysisData): AnalysisData => ({
+  ...data,
+  ingredients: data.ingredients.map((ingredient) => ({ ...ingredient })),
+  expiry_alerts: data.expiry_alerts.map((alert) => ({ ...alert })),
+  meal_decisions: data.meal_decisions.map((meal) => ({
+    ...meal,
+    ingredients_used: [...meal.ingredients_used],
+    missing_ingredients: [...meal.missing_ingredients],
+    recipe_steps: [...meal.recipe_steps],
+    smart_substitution: meal.smart_substitution ? { ...meal.smart_substitution } : undefined,
+  })),
+});
+
+const pickInitialCookbookState = (): AnalysisData => {
+  const index = Math.floor(Math.random() * INITIAL_COOKBOOK_LIBRARY.length);
+  return cloneAnalysisData(INITIAL_COOKBOOK_LIBRARY[index]);
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -915,7 +1004,7 @@ interface FridgeContextType {
   scanStepText: string;
   error: string | null;
   validationError: string | null;
-  rateCookedMeal: (file: File, mealName: string, wasteSavedRm: number) => Promise<void>;
+  rateCookedMeal: (file: File, mealName: string, wasteSavedRm: number) => Promise<{ alreadyLogged: boolean; rating: MealFeedback | null }>;
   isRatingMeal: boolean;
   mealFeedback: MealFeedback | null;
   setMealFeedback: (data: MealFeedback | null) => void;
@@ -931,13 +1020,9 @@ interface FridgeContextType {
 
 const FridgeContext = createContext<FridgeContextType | undefined>(undefined);
 
-// Initialize with Scenario 0 so the app boots pre-populated
-const DEFAULT_SCENARIO = DEMO_RESPONSE_LIBRARY[0];
-const DEFAULT_SAVED_MEALS: SavedMeal[] = DEFAULT_SCENARIO.meal_decisions.map((m, i) => ({ ...m, id: `default-${i}`, createdAt: new Date().toISOString() }));
-const DEFAULT_TOTAL_SAVED = DEFAULT_SCENARIO.meal_decisions.reduce((s, m) => s + m.waste_saved_rm, 0);
-
 export const FridgeProvider = ({ children }: { children: ReactNode }) => {
-  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(DEFAULT_SCENARIO);
+  const [initialCookbookState] = useState<AnalysisData>(() => pickInitialCookbookState());
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(() => initialCookbookState);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [scanStepText, setScanStepText] = useState('');
@@ -945,34 +1030,37 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
   const [isRatingMeal, setIsRatingMeal] = useState(false);
   const [mealFeedback, setMealFeedback] = useState<MealFeedback | null>(null);
-  const [savedMeals, setSavedMeals] = useState<SavedMeal[]>(DEFAULT_SAVED_MEALS);
-  const [profileData, setProfileData] = useState<Profile | null>({
-    xp: Math.round(DEFAULT_TOTAL_SAVED * 10),
-    saved_rm: DEFAULT_TOTAL_SAVED,
-    meals_rated: 18,
-    recent_ratings: [
-      { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.0, feedback: "Great wok technique! The garlic-shallot base compensated well for the missing shrimp paste." },
-      { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 8.0, feedback: "Good thickness without coconut milk. Could use more spice depth, but a reliable budget curry." },
-      { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 8.5, feedback: "Smart natural sweetener with the banana batter. Bread could be soaked longer for creamier center." },
-    ]
-  });
+  const [savedMeals, setSavedMeals] = useState<SavedMeal[]>(() =>
+    initialCookbookState.meal_decisions.map((meal, i) => ({ ...meal, id: `initial-${Date.now()}-${i}`, createdAt: new Date().toISOString() }))
+  );
+
+  // Lazy initialization guarantees no RM 0.00 flash on first paint.
+  const [totalSavedRM, setTotalSavedRM] = useState(() => parseFloat((Math.random() * (60 - 25) + 25).toFixed(2)));
+  const [totalMeals, setTotalMeals] = useState(() => Math.floor(Math.random() * (25 - 12 + 1)) + 12);
+  const [userXP, setUserXP] = useState(() => Math.floor(totalSavedRM * 10));
+
+  const [profileData, setProfileData] = useState<Profile | null>(() => ({
+    ...EMPTY_PROFILE,
+    xp: userXP,
+    saved_rm: totalSavedRM,
+    meals_rated: totalMeals,
+    recent_ratings: [],
+  }));
   const [apiKey, setApiKey] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isFirstDemoRun, setIsFirstDemoRun] = useState(true);
 
   const updateApiKey = (key: string) => { setApiKey(key); localStorage.setItem('cookgpt_api_key', key); };
 
   const loadProfile = async () => {
-    if (!profileData) setProfileData({
-      ...EMPTY_PROFILE,
-      saved_rm: DEFAULT_TOTAL_SAVED,
-      xp: Math.round(DEFAULT_TOTAL_SAVED * 10),
-      meals_rated: 18,
-      recent_ratings: [
-        { meal_name: "Village Fried Rice Rescue", date: "Apr 23 at 8:00 PM", rating: 9.0, feedback: "Great wok technique! The garlic-shallot base compensated well for the missing shrimp paste." },
-        { meal_name: "Pantry Rescue Lentil Curry", date: "Apr 21 at 1:30 PM", rating: 8.0, feedback: "Good thickness without coconut milk. Could use more spice depth, but a reliable budget curry." },
-        { meal_name: "Coffeehouse Banana French Toast", date: "Apr 19 at 9:15 AM", rating: 8.5, feedback: "Smart natural sweetener with the banana batter. Bread could be soaked longer for creamier center." },
-      ],
-    });
+    if (!profileData) {
+      setProfileData({
+        ...EMPTY_PROFILE,
+        xp: userXP,
+        saved_rm: totalSavedRM,
+        meals_rated: totalMeals,
+      });
+    }
   };
 
   const loadSavedMeals = async () => { /* demo: in-memory only */ };
@@ -992,42 +1080,61 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    // Stage 1: Connecting
-    setScanProgress(15);
-    setScanStepText("Connecting to Z.AI Vision nodes...");
+    const analysisDelayMs = Math.floor(Math.random() * (12000 - 8000 + 1)) + 8000;
+    const phaseDelayMs = Math.floor(analysisDelayMs / 4);
 
-    await new Promise(r => setTimeout(r, 2500));
+    // Phase 1
+    setScanProgress(0);
+    setScanStepText("Connecting to ILMU-GLM-5.1 Vision Nodes...");
 
-    // Stage 2: Identifying
-    setScanProgress(35);
-    setScanStepText("Isolating and identifying ingredients...");
+    await new Promise(r => setTimeout(r, phaseDelayMs));
 
-    await new Promise(r => setTimeout(r, 2500));
+    // Phase 2
+    setScanProgress(25);
+    setScanStepText("ILMU-GLM-5.1 extracting visual data...");
 
-    // Stage 3: Freshness diagnostics
-    setScanProgress(60);
-    setScanStepText("Running freshness and shelf-life diagnostics...");
+    await new Promise(r => setTimeout(r, phaseDelayMs));
 
-    await new Promise(r => setTimeout(r, 2500));
+    // Phase 3
+    setScanProgress(50);
+    setScanStepText("ILMU-GLM-5.1 running freshness diagnostics...");
 
-    // Stage 4: Valuation
-    setScanProgress(85);
-    setScanStepText("Calculating economic RM valuation...");
+    await new Promise(r => setTimeout(r, phaseDelayMs));
 
-    await new Promise(r => setTimeout(r, 2500));
+    // Phase 4
+    setScanProgress(75);
+    setScanStepText("ILMU-GLM-5.1 computing economic RM valuation...");
 
-    // Stage 5: Complete — push data
-    const scenario = DEMO_RESPONSE_LIBRARY[Math.floor(Math.random() * DEMO_RESPONSE_LIBRARY.length)];
+    await new Promise(r => setTimeout(r, phaseDelayMs));
+
+    // Phase 5: Complete — first run golden path, then random fallback
+    const scenario = isFirstDemoRun
+      ? cloneAnalysisData(GOLDEN_DEMO_STATE)
+      : cloneAnalysisData(DEMO_RESPONSE_LIBRARY[Math.floor(Math.random() * DEMO_RESPONSE_LIBRARY.length)]);
     setAnalysisData(scenario);
-    const totalSaved = scenario.meal_decisions.reduce((s, m) => s + m.waste_saved_rm, 0);
-    setProfileData(prev => prev ? { ...prev, saved_rm: prev.saved_rm + totalSaved } : { ...EMPTY_PROFILE, saved_rm: totalSaved });
-    setSavedMeals(prev => [
-      ...scenario.meal_decisions.map((m, i) => ({ ...m, id: `demo-${Date.now()}-${i}`, createdAt: new Date().toISOString() })),
-      ...prev,
-    ]);
+    const totalSaved = scenario.totalSavableRM ?? scenario.meal_decisions.reduce((s, m) => s + m.waste_saved_rm, 0);
+    setTotalSavedRM(totalSaved);
+    setTotalMeals(scenario.meal_decisions.length);
+    setUserXP(Math.round(totalSaved * 10));
+    setProfileData({
+      xp: Math.round(totalSaved * 10),
+      saved_rm: totalSaved,
+      meals_rated: scenario.meal_decisions.length,
+      recent_ratings: scenario.meal_decisions.map((meal) => {
+        const rating = DEMO_RATINGS[meal.meal_name] || DEMO_RATINGS.default;
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " at " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+        return { meal_name: meal.meal_name, date: formattedDate, rating: rating.rating_out_of_10, feedback: rating.zai_feedback };
+      }),
+    });
+    setSavedMeals(scenario.meal_decisions.map((m, i) => ({ ...m, id: `demo-${Date.now()}-${i}`, createdAt: new Date().toISOString() })));
+
+    if (isFirstDemoRun) {
+      setIsFirstDemoRun(false);
+    }
 
     setScanProgress(100);
-    setScanStepText("Finalizing adaptive recipes...");
+    setScanStepText("Finalizing adaptive recipes via ILMU-GLM-5.1...");
     setIsAnalyzing(false);
   };
 
@@ -1040,7 +1147,14 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
     }
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " at " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-    const rating = DEMO_RATINGS[mealName] || { rating_out_of_10: 7.5, zai_feedback: "Good effort using your available ingredients. Some seasoning adjustments would elevate this further. Keep cooking!", xp_gained: Math.round(wasteSavedRm * 10) };
+    const baseRating = DEMO_RATINGS[mealName] || { rating_out_of_10: 7.5, zai_feedback: "Good effort using your available ingredients. Some seasoning adjustments would elevate this further. Keep cooking!", xp_gained: Math.round(wasteSavedRm * 10) };
+    const rating = {
+      ...baseRating,
+      rating_out_of_10: Math.max(9, baseRating.rating_out_of_10),
+    };
+    setTotalSavedRM(prev => parseFloat((prev + wasteSavedRm).toFixed(2)));
+    setTotalMeals(prev => prev + 1);
+    setUserXP(prev => prev + rating.xp_gained);
     setProfileData(prev => prev ? {
       ...prev,
       saved_rm: prev.saved_rm + wasteSavedRm,
@@ -1052,25 +1166,28 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // DEMO MODE: hardcoded meal rating, varies by dish name
-  const rateCookedMeal = async (file: File, mealName: string, wasteSavedRm: number) => {
+  // DEMO MODE: dynamic high-score rating for "snap cooked meal" flow.
+  const rateCookedMeal = async (_file: File, mealName: string, wasteSavedRm: number) => {
     const alreadyCooked = profileData?.recent_ratings?.some(r => r.meal_name === mealName);
     if (alreadyCooked) {
-      setToastMessage(`Already logged! RM ${wasteSavedRm.toFixed(2)} was already saved.`);
-      setTimeout(() => setToastMessage(null), 3000);
-      return;
+      return { alreadyLogged: true, rating: null };
     }
 
+    const ratingScore = parseFloat((9.4 + Math.random() * 0.4).toFixed(1));
+    const rating: MealFeedback = {
+      rating_out_of_10: ratingScore,
+      xp_gained: Math.max(40, Math.round(wasteSavedRm * 11 + ratingScore * 4)),
+      zai_feedback: `Outstanding presentation on ${mealName}. Plate balance, color contrast, and finishing are competition-grade.`,
+    };
+
     setIsRatingMeal(true);
-    setMealFeedback(null);
-
-    await new Promise(r => setTimeout(r, 1200));
-
-    const rating = DEMO_RATINGS[mealName] || DEMO_RATINGS.default;
     setMealFeedback(rating);
 
     const now = new Date();
     const formattedDate = now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " at " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    setTotalSavedRM(prev => parseFloat((prev + wasteSavedRm).toFixed(2)));
+    setTotalMeals(prev => prev + 1);
+    setUserXP(prev => prev + rating.xp_gained);
     setProfileData(prev => prev ? {
       ...prev,
       xp: prev.xp + rating.xp_gained,
@@ -1079,7 +1196,11 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
       recent_ratings: [{ meal_name: mealName, date: formattedDate, rating: rating.rating_out_of_10, feedback: rating.zai_feedback }, ...prev.recent_ratings],
     } : EMPTY_PROFILE);
 
+    setToastMessage(`Z.AI Rating: ${rating.rating_out_of_10.toFixed(1)}! Outstanding presentation. RM ${wasteSavedRm.toFixed(2)} added to Impact Profile.`);
+    setTimeout(() => setToastMessage(null), 3500);
+
     setIsRatingMeal(false);
+    return { alreadyLogged: false, rating };
   };
 
   return (
