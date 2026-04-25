@@ -2,13 +2,15 @@ import { useRef, useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { MealDecision, useFridgeContext } from "../context/FridgeContext";
 
+type RatingPhase = "idle" | "analyzing" | "rated";
+
 export default function Recipe() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { rateCookedMeal, mealFeedback, setMealFeedback } = useFridgeContext();
+  const { rateCookedMeal, mealFeedback, setMealFeedback, setToastMessage } = useFridgeContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [completedUpTo, setCompletedUpTo] = useState(-1);
-  const [isRating, setIsRating] = useState(false);
+  const [phase, setPhase] = useState<RatingPhase>("idle");
 
   const handleStepClick = (idx: number) => {
     setCompletedUpTo(prev => prev === idx ? idx - 1 : idx);
@@ -19,21 +21,30 @@ export default function Recipe() {
   const meal = location.state?.meal as MealDecision | undefined;
 
   const handleCaptureClick = () => {
-    if (isRating) return;
+    if (phase !== "idle" || !meal) return;
     fileInputRef.current?.click();
   };
 
   const handleSnapForRating = async (recipe: MealDecision, selectedFile?: File) => {
-    if (isRating) return;
+    if (phase !== "idle") return;
 
-    setIsRating(true);
+    setPhase("analyzing");
     setMealFeedback(null);
 
     await new Promise((resolve) => setTimeout(resolve, 4000));
 
     const demoFile = selectedFile || new File(["zai-demo"], "zai-rating-demo.jpg", { type: "image/jpeg" });
-    await rateCookedMeal(demoFile, recipe.meal_name, recipe.waste_saved_rm);
-    setIsRating(false);
+    const result = await rateCookedMeal(demoFile, recipe.meal_name, recipe.waste_saved_rm);
+
+    if (result.alreadyLogged) {
+      setMealFeedback({
+        rating_out_of_10: 9.5,
+        xp_gained: Math.max(40, Math.round(recipe.waste_saved_rm * 11 + 9.5 * 4)),
+        zai_feedback: `Outstanding presentation on ${recipe.meal_name}. Plate balance, color contrast, and finishing are competition-grade.`,
+      });
+    }
+
+    setPhase("rated");
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +54,14 @@ export default function Recipe() {
     }
   };
 
-  const handleFinish = () => {
+  const handleClaimXP = () => {
+    const rating = mealFeedback?.rating_out_of_10;
     setMealFeedback(null);
     navigate("/profile");
+
+    if (rating != null && meal) {
+      setToastMessage(`Z.AI Rating: ${rating.toFixed(1)}! RM ${meal.waste_saved_rm.toFixed(2)} added to Impact Profile.`);
+    }
   };
 
   if (!meal) {
@@ -63,14 +79,6 @@ export default function Recipe() {
       </header>
 
       <div className="overflow-y-auto flex-1 pb-24 relative">
-        {isRating && (
-          <div className="absolute inset-0 z-30 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6">
-            <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl px-6 py-5 shadow-2xl flex items-center gap-3 max-w-sm w-full">
-              <span className="material-symbols-outlined animate-spin text-primary">hourglass_top</span>
-              <span className="font-body-md text-on-surface">ILMU-GLM-5.1 analyzing final dish presentation...</span>
-            </div>
-          </div>
-        )}
         <div className="relative w-full h-48 overflow-hidden">
           <img src={meal.image_src} alt={meal.meal_name} className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}></div>
@@ -172,33 +180,35 @@ export default function Recipe() {
         </div>
       </div>
 
-      <div className="sticky bottom-0 left-0 w-full bg-surface-container-lowest p-3 border-t border-outline-variant/30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40">
-        <input
-          type="file"
-          accept="image/*"
-          capture="environment"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-          aria-label="Upload cooked meal photo"
-          title="Upload cooked meal photo"
-        />
-        <button type="button" disabled={isRating} onClick={handleCaptureClick} className="w-full rounded-xl bg-emerald-600 text-white font-bold py-3.5 transition-all active:scale-95 flex items-center justify-center gap-2">
-          {isRating ? (
-            <>
-              <span className="material-symbols-outlined animate-spin" style={{ fontVariationSettings: "'FILL' 1" }}>hourglass_top</span>
-              <span className="text-[14px]">Z.AI Rating in Progress...</span>
-            </>
-          ) : (
-            <>
-              <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
-              <span className="text-[14px]">Snap Cooked Meal for Z.AI Rating</span>
-            </>
-          )}
-        </button>
-      </div>
+      {phase === "analyzing" && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl px-6 py-5 shadow-2xl flex items-center gap-3 max-w-sm w-full">
+            <span className="material-symbols-outlined animate-spin text-primary">hourglass_top</span>
+            <span className="font-body-md text-on-surface">ILMU-GLM-5.1 analyzing final dish presentation...</span>
+          </div>
+        </div>
+      )}
 
-      {mealFeedback && (
+      {phase === "idle" && (
+        <div className="sticky bottom-0 left-0 w-full bg-surface-container-lowest p-3 border-t border-outline-variant/30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40">
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+            aria-label="Upload cooked meal photo"
+            title="Upload cooked meal photo"
+          />
+          <button type="button" onClick={handleCaptureClick} className="w-full rounded-xl bg-emerald-600 text-white font-bold py-3.5 transition-all active:scale-95 flex items-center justify-center gap-2">
+            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>photo_camera</span>
+            <span className="text-[14px]">Snap Cooked Meal for Z.AI Rating</span>
+          </button>
+        </div>
+      )}
+
+      {phase === "rated" && mealFeedback && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-6">
           <div className="bg-surface-container-lowest w-full max-w-sm rounded-[32px] p-6 flex flex-col items-center text-center shadow-2xl relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -223,7 +233,7 @@ export default function Recipe() {
               <span className="font-stat-lg text-primary text-xl font-black">+{mealFeedback.xp_gained} XP</span>
             </div>
 
-            <button type="button" onClick={handleFinish} className="w-full bg-primary text-on-primary py-3.5 rounded-xl font-bold shadow-sm active:scale-95 transition-all">
+            <button type="button" onClick={handleClaimXP} className="w-full bg-primary text-on-primary py-3.5 rounded-xl font-bold shadow-sm active:scale-95 transition-all">
               Claim XP &amp; Finish
             </button>
           </div>

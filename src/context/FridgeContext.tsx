@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type Ingredient = { name: string; quantity: string; freshness: "fresh"|"aging"|"expiring_soon"; estimated_cost_rm: number; description?: string; };
 export type ExpiryAlert = { ingredient: string; urgency: "today"|"tomorrow"; };
@@ -1016,6 +1016,7 @@ interface FridgeContextType {
   apiKey: string;
   setApiKey: (key: string) => void;
   toastMessage: string | null;
+  setToastMessage: (msg: string | null) => void;
 }
 
 const FridgeContext = createContext<FridgeContextType | undefined>(undefined);
@@ -1048,6 +1049,13 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
   }));
   const [apiKey, setApiKey] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (toastMessage) {
+      const timer = setTimeout(() => setToastMessage(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toastMessage]);
   const [isFirstDemoRun, setIsFirstDemoRun] = useState(true);
 
   const updateApiKey = (key: string) => { setApiKey(key); localStorage.setItem('cookgpt_api_key', key); };
@@ -1196,15 +1204,12 @@ export const FridgeProvider = ({ children }: { children: ReactNode }) => {
       recent_ratings: [{ meal_name: mealName, date: formattedDate, rating: rating.rating_out_of_10, feedback: rating.zai_feedback }, ...prev.recent_ratings],
     } : EMPTY_PROFILE);
 
-    setToastMessage(`Z.AI Rating: ${rating.rating_out_of_10.toFixed(1)}! Outstanding presentation. RM ${wasteSavedRm.toFixed(2)} added to Impact Profile.`);
-    setTimeout(() => setToastMessage(null), 3500);
-
     setIsRatingMeal(false);
     return { alreadyLogged: false, rating };
   };
 
   return (
-    <FridgeContext.Provider value={{ analysisData, setAnalysisData, analyzeImages, isAnalyzing, scanProgress, scanStepText, rateCookedMeal, error, validationError, isRatingMeal, mealFeedback, setMealFeedback, savedMeals, loadSavedMeals, profileData, loadProfile, cookMeal, apiKey, setApiKey: updateApiKey, toastMessage }}>
+    <FridgeContext.Provider value={{ analysisData, setAnalysisData, analyzeImages, isAnalyzing, scanProgress, scanStepText, rateCookedMeal, error, validationError, isRatingMeal, mealFeedback, setMealFeedback, savedMeals, loadSavedMeals, profileData, loadProfile, cookMeal, apiKey, setApiKey: updateApiKey, toastMessage, setToastMessage }}>
       {children}
     </FridgeContext.Provider>
   );
