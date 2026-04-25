@@ -3,8 +3,6 @@
 
 **Snap your fridge. Stop wasting food. Save money every week.**
 
-Pitch Video: https://drive.google.com/file/d/1UBMJY2AnI3owtSxPPqZQd6pfQsTMc3Cu/view?usp=drivesdk
-
 [![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat&logo=react)](https://vitejs.dev)
 [![Z.AI](https://img.shields.io/badge/AI-Z.AI%20GLM-00C896?style=flat)](https://console.ilmu.ai)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=flat&logo=firebase)](https://firebase.google.com)
@@ -17,6 +15,26 @@ Pitch Video: https://drive.google.com/file/d/1UBMJY2AnI3owtSxPPqZQd6pfQsTMc3Cu/v
 </div>
 
 ---
+
+## 🎬 &nbsp;Pitch Video
+
+<div align="center">
+
+<br/>
+
+> 🏆 &nbsp;**UMHackathon 2026** &nbsp;·&nbsp; Domain 2: AI for Economic Empowerment & Decision Intelligence
+
+<br/>
+
+[<img src="https://img.shields.io/badge/-%E2%96%B6%20WATCH%20PITCH%20VIDEO%20ON%20DRIVE-4285F4?style=for-the-badge&logo=googledrive&logoColor=white&labelColor=1a73e8" height="50"/>](https://drive.google.com/file/d/1UBMJY2AnI3owtSxPPqZQd6pfQsTMc3Cu/view?usp=drivesdk)
+
+<br/>
+
+*Click above to watch our 10-minute pitch and live prototype demo*
+
+<br/>
+
+</div>
 
 ## The Problem
 
