@@ -1,7 +1,7 @@
-Pitch Video: https://drive.google.com/file/d/1UBMJY2AnI3owtSxPPqZQd6pfQsTMc3Cu/view?usp=drivesdk
-
 # Cook.GPT
 ### AI-Powered Economic Decision Intelligence for the Malaysian Kitchen
+
+Pitch Video: https://drive.google.com/file/d/1UBMJY2AnI3owtSxPPqZQd6pfQsTMc3Cu/view?usp=drivesdk
 
 **Snap your fridge. Stop wasting food. Save money every week.**
 
